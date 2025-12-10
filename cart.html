@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Panier de Pré-Commande - Kawaii Shop</title>
+    <title>Mon Panier - Kawaii Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body class="cart-page"> 
+    
     <header class="main-header">
         <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
         <nav class="nav-categories">
@@ -18,7 +18,6 @@
         
         <div class="search-container">
             <button id="toggle-search" aria-label="Afficher/Masquer la barre de recherche">🔍</button> 
-            
             <div id="search-input-wrapper" class="search-input-wrapper hidden">
                 <input type="text" id="search-input" placeholder="Rechercher mangas, comics, auteurs...">
                 <button id="search-button">GO</button>
@@ -32,49 +31,26 @@
         </div>
     </header>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Méthode de Paiement</h2>
-            <p>Veuillez choisir votre méthode préférée pour finaliser la commande :</p>
-            <div class="payment-options">
-                <button id="pay-airtel" class="btn btn-payment">Airtel Money</button>
-                <button id="pay-mobicash" class="btn btn-payment">Mobicash</button>
+    <main class="cart-page-main">
+        <h1>🛒 Votre Panier de Pré-commande</h1>
+
+        <section class="cart-items">
+            <h2>Articles sélectionnés</h2>
+            <div id="cart-items-list" class="item-list">
+                <p>Chargement du panier...</p>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <main class="cart-page">
-
-        <h2>🛒 Votre Panier de Pré-Commande</h2>
-
-        <section class="cart-content">
+        <section class="cart-summary">
+            <h2>Résumé de la commande</h2>
+            <p>Le prix total est calculé pour la pré-commande avant envoi du lien de paiement.</p>
             
-            <div class="cart-items-container">
-                <div id="cart-list">
-                    </div>
-
-                <div id="cart-empty-message" style="display:none; text-align: center;">
-                    <p>Votre panier est vide. Visitez <a href="index.html">notre catalogue</a> pour commencer votre sélection !</p>
-                </div>
-            </div>
-
-            <div class="cart-summary">
-                <h3>Récapitulatif de Commande</h3>
-                <p>Articles sélectionnés : <span id="summary-count">0</span></p>
-                <p class="total">Total Estimé : <span id="summary-total">0 XAF</span></p>
-                
-                <p class="whatsapp-disclaimer">
-                    ⚠️ Le prix affiché est une estimation. Le prix final sera confirmé lors de l'échange via WhatsApp.
-                </p>
-
-                <button id="checkout-button" class="btn btn-primary" disabled>
-                    Passer Commande (Choisir Paiement)
-                </button>
-
-                <p><small>La livraison se fait par envoi direct via WhatsApp après confirmation du paiement.</small></p>
-            </div>
-
+            <p class="total">Total : <span id="cart-summary-total">0 XAF</span></p>
+            
+            <button id="checkout-button" class="btn btn-primary">Passer la Commande (Paiement)</button>
+            <p class="summary-note">
+                <small>La finalisation se fait via WhatsApp pour confirmer les options de paiement.</small>
+            </p>
         </section>
 
     </main>
@@ -86,6 +62,27 @@
             <a href="https://www.facebook.com/votrepage" target="_blank">Page Facebook</a>
         </nav>
     </footer>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Choisissez votre Mode de Paiement</h2>
+            <p>Cliquez sur l'option de paiement souhaitée pour générer et envoyer automatiquement le récapitulatif de votre commande sur WhatsApp.</p>
+            
+            <div class="payment-options">
+                <div class="payment-option" data-method="Airtel Money">
+                    💰 Airtel Money (AM)
+                </div>
+                <div class="payment-option" data-method="Mobicash">
+                    💰 Mobicash (MC)
+                </div>
+            </div>
+            
+            <p class="modal-warning">
+                <small>Après l'envoi du message WhatsApp, un agent vous contactera pour finaliser la transaction.</small>
+            </p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
