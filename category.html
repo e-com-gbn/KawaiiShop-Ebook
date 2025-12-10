@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Nom du Genre] - Catalogue Kawaii Shop</title>
+    <title>Catalogue - Kawaii Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="category-page">
 
     <header class="main-header">
         <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
@@ -18,7 +18,6 @@
         
         <div class="search-container">
             <button id="toggle-search" aria-label="Afficher/Masquer la barre de recherche">🔍</button> 
-            
             <div id="search-input-wrapper" class="search-input-wrapper hidden">
                 <input type="text" id="search-input" placeholder="Rechercher mangas, comics, auteurs...">
                 <button id="search-button">GO</button>
@@ -32,71 +31,39 @@
         </div>
     </header>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Méthode de Paiement</h2>
-            <p>Veuillez choisir votre méthode préférée pour finaliser la commande :</p>
-            <div class="payment-options">
-                <button id="pay-airtel" class="btn btn-payment">Airtel Money</button>
-                <button id="pay-mobicash" class="btn btn-payment">Mobicash</button>
-            </div>
-        </div>
-    </div>
+    <main class="category-main">
+        <h1 id="category-title">Catégorie : Tous</h1>
+        <p id="result-count">Chargement...</p>
 
-    <main class="category-page">
-
-        <nav class="breadcrumb">
-            <a href="index.html">Accueil</a> &gt; <span>Shōnen</span>
-        </nav>
-        
-        <h2 id="category-title">Catégorie : Shōnen</h2>
-
-        <div class="content-wrapper">
-            
-            <aside class="sidebar-filters">
-                <h3>Options de Filtrage</h3>
-
+        <section class="filters-and-sort">
+            <div class="filters-sidebar">
+                <h3>Filtrer et Trier</h3>
+                
+                <div class="filter-group">
+                    <h4>Type de média</h4>
+                    <label><input type="checkbox" name="media-type" value="manga"> Manga (Jap.)</label>
+                    <label><input type="checkbox" name="media-type" value="comics"> Comics (BD)</label>
+                    <label><input type="checkbox" name="media-type" value="scan"> Scan/Webtoon</label>
+                </div>
+                
                 <div class="filter-group">
                     <h4>Trier par</h4>
                     <select id="sort-by-date">
-                        <option value="newest">Date de publication (Plus récents)</option>
-                        <option value="oldest">Date de publication (Plus anciens)</option>
-                        <option value="popular">Popularité</option>
+                        <option value="newest">Plus récents d'abord</option>
+                        <option value="oldest">Plus anciens d'abord</option>
                         <option value="price_asc">Prix croissant</option>
+                        <option value="price_desc">Prix décroissant</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="filter-group">
-                    <h4>Type de Média</h4>
-                    <label><input type="checkbox" name="media-type" value="manga"> Manga</label>
-                    <label><input type="checkbox" name="media-type" value="comics"> Comics US/Euro</label>
-                    <label><input type="checkbox" name="media-type" value="scan"> Scan/Webtoon</label>
-                </div>
-
-                <div class="filter-group">
-                    <h4>Auteur / Série</h4>
-                    <input type="text" placeholder="Rechercher un auteur...">
-                </div>
-
-                <button class="btn-secondary apply-filters">Appliquer les Filtres</button>
-            </aside>
-
-            <section class="product-list-area">
-                
-                <p id="result-count">Affichage des produits...</p>
-                
+            <div class="product-grid-container">
                 <div class="product-grid">
-                    </div>
-
-                <div class="pagination">
-                    <button disabled>&laquo; Précédent</button>
-                    <span>Page 1 de X</span>
-                    <button>Suivant &raquo;</button>
+                    <p>Chargement des produits...</p>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </div>
     </main>
     
     <footer class="main-footer">
