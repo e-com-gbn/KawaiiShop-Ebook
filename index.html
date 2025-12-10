@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kawaii Shop - Comics & Mangas Numériques</title>
+    <title>Kawaii Shop - Pré-commande Manga & Comics</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home-page">
 
     <header class="main-header">
-        <div class="logo">
-            <h1><a href="index.html">Kawaii Shop</a></h1>
-        </div>
-
+        <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
         <nav class="nav-categories">
             <a href="category.html?genre=action">Action</a>
             <a href="category.html?genre=fantasy">Fantaisie</a>
             <a href="category.html?genre=scifi">Sci-Fi</a>
-            <a href="category.html?genre=romance">Romance</a>
-            <a href="category.html?genre=horror">Horreur</a>
         </nav>
         
         <div class="search-container">
@@ -37,99 +32,39 @@
         </div>
     </header>
 
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Méthode de Paiement</h2>
-            <p>Veuillez choisir votre méthode préférée pour finaliser la commande :</p>
-            <div class="payment-options">
-                <button id="pay-airtel" class="btn btn-payment">Airtel Money</button>
-                <button id="pay-mobicash" class="btn btn-payment">Mobicash</button>
-            </div>
-        </div>
-    </div>
-
     <main>
-
-        <section class="section-categories">
-            <h2>Explorez par Genre</h2>
-            <div class="category-grid">
-                <a href="category.html?genre=shonen" class="category-card">Shonen</a>
-                <a href="category.html?genre=shojo" class="category-card">Shojo</a>
-                <a href="category.html?genre=seinen" class="category-card">Seinen</a>
-                <a href="category.html?genre=sliceoflife" class="category-card">Tranche de Vie</a>
-                <a href="category.html?genre=thriller" class="category-card">Thriller</a>
-                <a href="category.html?genre=fantasy" class="category-card">Fantaisie</a>
-            </div>
-        </section>
-        
-        <hr>
-
-        <section class="section-hero">
-            <div class="hero-carousel">
-                <div class="slide slide-1 active">
-                    <h3>NOUVEAUTÉ : L'Aventure Continue !</h3>
-                    <p>Découvrez la suite tant attendue en version numérique.</p>
-                    <a href="product.html?id=101" class="btn btn-primary">Voir l'Exclusivité</a>
-                </div>
-            </div>
+        <section class="hero-banner">
+            <h2>🎉 Nouveautés et Pré-commandes Exclusives !</h2>
+            <p>Découvrez notre catalogue numérique de mangas, comics et scans rares.</p>
+            <a href="category.html?genre=tous" class="btn btn-primary">Voir tout le catalogue</a>
         </section>
 
-        <hr>
-
-        <section class="section-bestsellers">
-            <h2>Nos Meilleures Ventes 🔥</h2>
-            <div class="product-grid">
-                
-                <div class="product-card" data-product-id="1">
-                    <a href="product.html?id=1"><img src="https://via.placeholder.com/300x450/00FFFF/FF4136?text=Manga+T1" alt="Couverture du produit 1"></a>
-                    <h3><a href="product.html?id=1">Nom du Manga/Comic - T.1</a></h3>
-                    <p class="product-genre">Fantaisie</p>
-                    <p class="price">3000 XAF</p>
-                    <button class="btn btn-add-cart" data-title="Nom du Manga/Comic - T.1">Ajouter au Panier</button>
-                </div>
-
-                <div class="product-card" data-product-id="2">
-                    <a href="product.html?id=2"><img src="https://via.placeholder.com/300x450/FF4136/00FFFF?text=Comic+S.F." alt="Couverture du produit 2"></a>
-                    <h3><a href="product.html?id=2">Titre Comics Sci-Fi</a></h3>
-                    <p class="product-genre">Science-Fiction</p>
-                    <p class="price">4500 XAF</p>
-                    <button class="btn btn-add-cart" data-title="Titre Comics Sci-Fi">Ajouter au Panier</button>
-                </div>
-                
-                <div class="product-card" data-product-id="3">
-                    <a href="product.html?id=3"><img src="https://via.placeholder.com/300x450/333333/FFFFFF?text=Scan+Horreur" alt="Couverture du produit 3"></a>
-                    <h3><a href="product.html?id=3">Scan d'Horreur</a></h3>
-                    <p class="product-genre">Horreur</p>
-                    <p class="price">2500 XAF</p>
-                    <button class="btn btn-add-cart" data-title="Scan d'Horreur">Ajouter au Panier</button>
-                </div>
-
+        <section class="featured-categories">
+            <h3>Catégories à la une</h3>
+            <div class="category-cards">
+                <a href="category.html?genre=fantasy" class="card card-fantasy">
+                    <h4>Fantasy Épique</h4>
+                    <p>Magie, Dragons et Aventures.</p>
+                </a>
+                <a href="category.html?genre=scifi" class="card card-scifi">
+                    <h4>Science-Fiction</h4>
+                    <p>Robots, Cyberpunk et Voyages Spatiaux.</p>
+                </a>
+                <a href="category.html?genre=action" class="card card-action">
+                    <h4>Action & Shōnen</h4>
+                    <p>Combats Intenses et Histoires de Rivalité.</p>
+                </a>
             </div>
         </section>
-        
-        <hr>
 
-        <section class="section-process">
-            <h2>Commander c'est simple !</h2>
-            <div class="steps-grid">
-                <div class="step">
-                    <h3>1. Panier</h3>
-                    <p>Ajoutez vos titres favoris au panier de pré-commande.</p>
-                </div>
-                <div class="step">
-                    <h3>2. Paiement</h3>
-                    <p>Choisissez votre option : Airtel Money ou Mobicash.</p>
-                </div>
-                <div class="step">
-                    <h3>3. Commande</h3>
-                    <p>Cliquez pour générer le message WhatsApp.</p>
-                </div>
-                <div class="step">
-                    <h3>4. Réception</h3>
-                    <p>Recevez votre commande numérique directement sur WhatsApp !</p>
-                </div>
-            </div>
+        <section class="how-it-works">
+            <h3>Comment ça Marche ?</h3>
+            <ol>
+                <li>**Sélectionnez** : Choisissez vos tomes/chapitres dans le catalogue.</li>
+                <li>**Panier** : Remplissez votre panier et cliquez sur Commander.</li>
+                <li>**WhatsApp** : Choisissez votre mode de paiement et envoyez votre pré-commande via WhatsApp.</li>
+                <li>**Finalisation** : Nous finalisons la transaction et vous envoyons vos fichiers !</li>
+            </ol>
         </section>
 
     </main>
