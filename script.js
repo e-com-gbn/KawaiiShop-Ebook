@@ -1,247 +1,325 @@
 /**
- * Fichier script.js - Logique du Panier de Pré-commande et de la Modale de Paiement
+ * Fichier script.js - Logique globale du site (Panier, Modale, Navigation).
  * Ce fichier doit être chargé sur TOUTES les pages.
  */
 
-const WHATSAPP_NUMBER = "+24162636600"; 
-let cartItems = JSON.parse(localStorage.getItem('kawaiiShopCart')) || []; 
-const cartCountElement = document.querySelector('.cart-count');
+// --- BASE DE DONNÉES MINIMALE POUR LE CALCUL DU PRIX ---
+// Cette liste est essentielle pour que le panier puisse calculer le total.
+const PRICE_MAP = [
+    { 
+        id: 1, 
+        title: "Gachiakuta", 
+        genre: "fantasy", 
+        mediaType: "manga", 
+        price: 300, 
+        date: "2022-02-01", 
+        minVolume: 1, // NOUVEAU
+        maxVolume: 10, // NOUVEAU
+        author: "Kei Urana",
+        pages: 20,
+        format: "CBR, PDF",
+        imageUrl: "https://m.media-amazon.com/images/M/MV5BZDU5ZmEzODYtMDU2OS00NTZiLTk4MWYtYWUyZWUzNGU2ODdjXkEyXkFqcGc@._V1_.jpg",
+        summary: "Rudo, un jeune homme rejeté par la société et envoyé dans un immense dépotoir où survivre est presque impossible. Dans ce monde brutal rempli de déchets, de créatures étranges et de secrets enfouis, Rudo découvre qu’il possède un pouvoir lié à des objets jetés par les humains. Guidé par de nouveaux alliés, il cherche à comprendre la vérité sur ce système injuste et sur son propre passé.",
+        rating: "★★★★☆"
+    },
+    { 
+        id: 2, 
+        title: "Sexy Cosplay Doll", 
+        genre: "fantasy", 
+        mediaType: "manga", 
+        price: 800, 
+        date: "2019-10-25", 
+        minVolume: 1, maxVolume: 2,
+        author: "Shin'ichi Fukuda",
+        pages: 202,
+        format: "CBZ, PDF",
+        imageUrl: "https://m.media-amazon.com/images/I/815lmrIk-fL._AC_UF1000,1000_QL80_.jpg",
+        summary: "Wakana Gojo est un lycéen de première année qui rêve de devenir un artisan de poupées hina, à l'instar de son grand-père. Un jour, au cours de son premier semestre, sa camarade de classe Marine Kitagawa, très populaire dans le lycée, le surprend en train de réaliser des costumes de poupées dans la salle de confection de vêtements de l'école.",
+        rating: "★★★★★"
+    },
+    { 
+        id: 3, 
+        title: "Marvel's Thor : Ragnarok", 
+        genre: "action", 
+        mediaType: "comics", 
+        price: 1300, 
+        date: "2017-06-23", 
+        minVolume: 1, maxVolume: 1,
+        author: "Olivier Coipel",
+        pages: 152,
+        format: "Webtoon, PDF",
+        imageUrl: "https://cdn.marvel.com/u/prod/marvel/i/mg/d/20/59cba89d5fd54/portrait_uncanny.jpg",
+        summary: "Le cycle éternel de Ragnarok décrit la naissance, la mort et la résurrection des dieux Asgardiens. Un cycle auquel Thor veut mettre fin. C’est une décision lourde de conséquences, puisqu’elle pourrait signer la disparition du panthéon d’Asgard.",
+        rating: "★★★☆☆"
+        },
+    { id: 4, title: "Titre Shōnen A - T.1", price: 3500 },
+    { id: 5, title: "Bande Dessinée B - Vol.3", price: 5000 },
+    { id: 6, title: "Webtoon Mystère", price: 2800 },
+    { id: 7, title: "L'Ombre Fantôme", price: 4000 },
+    { id: 8, title: "Le Secret des Étoiles", price: 6000 },
+    { id: 9, title: "Aventure Épique", price: 4000 },
+    { id: 10, title: "Chasseurs de l'Espace", price: 3200 },
+];
+// --- FIN BASE DE DONNÉES MINIMALE ---
 
-// Références à la modale de paiement
-const paymentModal = document.getElementById('payment-modal');
-const closeModalButton = paymentModal ? paymentModal.querySelector('.close-button') : null;
-const btnAirtel = document.getElementById('pay-airtel');
-const btnMobicash = document.getElementById('pay-mobicash');
 
-// Références à la barre de recherche
-const toggleSearchButton = document.getElementById('toggle-search');
-const searchInputWrapper = document.getElementById('search-input-wrapper');
-const searchInput = document.getElementById('search-input');
-const searchButton = document.getElementById('search-button');
+// --- 1. GESTION DU PANIER (LOCAL STORAGE) ---
 
-// Nouveaux éléments DOM spécifiques à cart.html
-const cartListPage = document.getElementById('cart-list');
-const checkoutButton = document.getElementById('checkout-button');
-const summaryCount = document.getElementById('summary-count');
-const summaryTotal = document.getElementById('summary-total');
-const cartEmptyMessage = document.getElementById('cart-empty-message');
+let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+function getBasePrice(baseTitle) {
+    const product = PRICE_MAP.find(p => p.title === baseTitle);
+    return product ? product.price : 3000; 
+}
 
 /**
- * Met à jour le compteur d'articles dans le header.
+ * Ajoute un produit au panier, gérant le volume/chapitre pour product.html.
+ * Reste accessible globalement pour product.js et category.js.
  */
-function updateCartCount() {
+function addToCart(productTitle) {
+    let volumeNumber = null;
+    let finalTitle = productTitle;
+    let baseTitle = productTitle;
+
+    const volumeInput = document.getElementById('volume-number');
+    
+    // Si nous sommes sur la page produit et qu'un sélecteur de volume existe
+    if (volumeInput) {
+        volumeNumber = parseInt(volumeInput.value);
+        
+        const minVal = parseInt(volumeInput.min) || 1;
+        const maxVal = parseInt(volumeInput.max) || 999;
+        
+        // S'assurer que le volume est dans la plage autorisée
+        if (volumeNumber < minVal) {
+             volumeNumber = minVal;
+        } else if (volumeNumber > maxVal) {
+             volumeNumber = maxVal;
+        }
+        
+        if (volumeNumber && volumeNumber > 0) {
+            finalTitle = `${productTitle} (Vol. ${volumeNumber})`;
+        }
+    }
+    
+    const existingItem = cartItems.find(item => item.title === finalTitle);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cartItems.push({ 
+            title: finalTitle, 
+            quantity: 1, 
+            baseTitle: baseTitle, 
+            volume: volumeNumber || null 
+        });
+    }
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartDisplay();
+    
+    alert(`"${finalTitle}" a été ajouté au panier !`);
+}
+
+function updateCartDisplay() {
+    const cartCountElement = document.querySelector('.cart-count');
     if (cartCountElement) {
-        cartCountElement.textContent = cartItems.length;
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountElement.textContent = totalItems;
     }
 }
 
 /**
- * Ajoute un article au panier. (Globale pour être appelée par category.js)
- * @param {string} title - Titre du produit.
- */
-function addToCart(title) {
-    cartItems.push({ title: title });
-    localStorage.setItem('kawaiiShopCart', JSON.stringify(cartItems));
-    updateCartCount();
-    alert(`"${title}" a été ajouté à votre panier de pré-commande !`);
-}
-
-/**
- * Supprime un article du panier.
- * @param {string} title - Titre du produit à supprimer.
- */
-function removeItemFromCart(title) {
-    const index = cartItems.findIndex(item => item.title === title);
-    
-    if (index !== -1) {
-        cartItems.splice(index, 1); 
-        localStorage.setItem('kawaiiShopCart', JSON.stringify(cartItems));
-        updateCartCount();
-        renderCartItems(); // Re-render le panier sur cart.html
-    }
-}
-
-/**
- * Génère le message WhatsApp final.
- * @param {string} paymentMethod - Méthode choisie ('Airtel Money' ou 'Mobicash').
- */
-function generateWhatsAppLink(paymentMethod) {
-    if (cartItems.length === 0) {
-        alert("Votre panier est vide. Veuillez ajouter des articles avant de commander.");
-        return;
-    }
-
-    const uniqueTitles = [...new Set(cartItems.map(item => item.title))];
-    const titlesList = uniqueTitles.map((title, index) => `${index + 1}. ${title}`).join('\n');
-
-    const message = `Bonjour, je souhaite passer la commande suivante (Kawaii Shop) :
-    
-${titlesList}
-
-Ma méthode de paiement préférée est : ${paymentMethod}.
-Veuillez m'indiquer la procédure pour finaliser la commande. Merci.`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
-}
-
-
-/**
- * Affiche les articles du panier sur la page cart.html et met à jour le résumé.
+ * Charge les articles du panier sur la page cart.html et calcule le total.
  */
 function renderCartItems() {
-    if (!cartListPage) return; 
+    const container = document.getElementById('cart-items-list');
+    const summaryTotal = document.getElementById('cart-summary-total');
+    
+    if (!container || !summaryTotal) return; 
 
-    cartListPage.innerHTML = ''; 
+    container.innerHTML = '';
     
     if (cartItems.length === 0) {
-        cartEmptyMessage.style.display = 'block';
-        checkoutButton.disabled = true;
-        summaryCount.textContent = '0';
+        container.innerHTML = '<p>Votre panier est vide. Visitez le <a href="category.html?genre=tous">catalogue</a> pour commencer vos pré-commandes !</p>';
         summaryTotal.textContent = '0 XAF';
         return;
     }
     
-    cartEmptyMessage.style.display = 'none';
-    checkoutButton.disabled = false;
+    let grandTotal = 0;
 
-    const totalItems = cartItems.length;
-    const EXAMPLE_PRICE = 3000;
-    const estimatedTotal = totalItems * EXAMPLE_PRICE; 
+    cartItems.forEach((item, index) => {
+        const basePrice = getBasePrice(item.baseTitle); 
+        const itemTotalPrice = item.quantity * basePrice;
+        grandTotal += itemTotalPrice;
 
-    // Créer la liste des éléments du panier
-    cartItems.forEach((item) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('cart-item');
-        itemDiv.innerHTML = `
+        item.price = basePrice; 
+        
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        
+        itemElement.innerHTML = `
             <div class="item-details">
-                <span class="item-title">${item.title}</span>
-                <span class="item-price">${EXAMPLE_PRICE} XAF</span>
+                <span class="item-title">${item.title} (x${item.quantity})</span>
+                <span class="item-price">Prix unitaire : ${basePrice.toLocaleString('fr-FR')} XAF</span>
             </div>
-            <button class="btn-remove" data-title="${item.title}">Supprimer</button>
+            <button class="btn-remove" data-index="${index}">Retirer</button>
         `;
-        cartListPage.appendChild(itemDiv);
+        container.appendChild(itemElement);
     });
 
-    // Mettre à jour les résumés
-    summaryCount.textContent = totalItems;
-    summaryTotal.textContent = `${estimatedTotal} XAF (est.)`;
-    
-    // Ajouter les écouteurs de suppression
+    summaryTotal.textContent = `${grandTotal.toLocaleString('fr-FR')} XAF`;
+    setupRemoveListeners(); 
+}
+
+function removeItemFromCart(index) {
+    cartItems.splice(index, 1);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    updateCartDisplay();
+    renderCartItems(); 
+}
+
+function setupRemoveListeners() {
     document.querySelectorAll('.btn-remove').forEach(button => {
         button.addEventListener('click', (event) => {
-            const titleToRemove = event.target.getAttribute('data-title');
-            removeItemFromCart(titleToRemove);
+            const index = event.target.getAttribute('data-index');
+            removeItemFromCart(index);
         });
     });
 }
 
-/**
- * Affiche ou masque la barre de recherche.
- */
-function toggleSearch() {
-    if (searchInputWrapper) {
-        searchInputWrapper.classList.toggle('hidden');
-        searchInputWrapper.classList.toggle('visible');
-        if (searchInputWrapper.classList.contains('visible')) {
-            searchInput.focus(); // Met le curseur dans le champ de recherche
-        }
-    }
-}
 
-/**
- * Exécute la fonction de recherche.
- */
-function performSearch() {
-    const query = searchInput.value.trim();
-    if (query.length > 2) {
-        // Rediriger vers la page de catégorie avec le terme de recherche
-        window.location.href = `category.html?genre=tous&search=${encodeURIComponent(query)}`;
-    } else {
-        alert("Veuillez entrer au moins 3 caractères pour la recherche.");
-    }
-}
+// --- 2. GESTION DE LA MODALE ET DU CHECKOUT ---
 
+function setupCheckout() {
+    const checkoutButton = document.getElementById('checkout-button');
+    const modal = document.getElementById('payment-modal');
+    const closeButton = document.querySelector('.close-button');
+    const paymentOptionsContainer = document.querySelector('.payment-options');
 
-/**
- * Initialisation des écouteurs d'événements
- */
-document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-
-    // 1. Logique de la barre de recherche
-    if (toggleSearchButton) {
-        toggleSearchButton.addEventListener('click', toggleSearch);
-    }
-    
-    if (searchButton) {
-        searchButton.addEventListener('click', performSearch);
-    }
-    
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                performSearch();
+    if (checkoutButton && modal) {
+        checkoutButton.addEventListener('click', () => {
+            renderCartItems(); 
+            
+            if (cartItems.length > 0) {
+                 modal.style.display = 'block';
+            } else {
+                 alert("Votre panier est vide !");
             }
         });
-    }
 
-    // 2. Écouteurs pour le bouton 'Ajouter au Panier' (pages non dynamiques)
-    if (!document.querySelector('.product-grid')) {
-        document.querySelectorAll('.btn-add-cart').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const productTitle = event.target.getAttribute('data-title');
-                if (productTitle) {
-                    addToCart(productTitle);
-                }
-            });
+        closeButton.addEventListener('click', () => {
+            modal.style.display = 'none';
         });
-    }
-
-    // 3. Logique de la Modale de Paiement
-    if (paymentModal) {
-        
-        if (closeModalButton) {
-            closeModalButton.addEventListener('click', () => {
-                paymentModal.style.display = 'none';
-            });
-        }
 
         window.addEventListener('click', (event) => {
-            if (event.target === paymentModal) {
-                paymentModal.style.display = 'none';
+            if (event.target == modal) {
+                modal.style.display = 'none';
             }
         });
 
-        if (btnAirtel) {
-             btnAirtel.addEventListener('click', () => {
-                generateWhatsAppLink('Airtel Money');
-                paymentModal.style.display = 'none';
-            });
-        }
-
-        if (btnMobicash) {
-            btnMobicash.addEventListener('click', () => {
-                generateWhatsAppLink('Mobicash');
-                paymentModal.style.display = 'none';
-            });
-        }
-    }
-
-    // 4. Logique spécifique à la Page Panier
-    if (cartListPage) {
-        renderCartItems();
-        
-        if (checkoutButton) {
-            checkoutButton.addEventListener('click', () => {
-                if (cartItems.length > 0) {
-                    paymentModal.style.display = 'block';
-                } else {
-                    alert("Votre panier est vide.");
+        if (paymentOptionsContainer) {
+             paymentOptionsContainer.addEventListener('click', (event) => {
+                const option = event.target.closest('.payment-option'); 
+                if (option) {
+                    const method = option.getAttribute('data-method');
+                    generateWhatsAppLink(method);
                 }
             });
         }
+    }
+}
+
+/**
+ * Génère le message et ouvre le lien WhatsApp.
+ */
+function generateWhatsAppLink(method) {
+    if (cartItems.length === 0) return;
+
+    renderCartItems(); 
+    
+    let message = "Bonjour Kawaii Shop,\n\n";
+    message += `Je souhaite pré-commander les articles suivants (${method}):\n\n`;
+    
+    let grandTotal = 0;
+
+    cartItems.forEach(item => {
+        const basePrice = getBasePrice(item.baseTitle);
+        const itemTotal = item.quantity * basePrice;
+        grandTotal += itemTotal;
+        
+        let line = `* ${item.title} (x${item.quantity}) - ${itemTotal.toLocaleString('fr-FR')} XAF\n`;
+        message += line;
+    });
+
+    message += `\nMontant Total Calculé : *${grandTotal.toLocaleString('fr-FR')} XAF*.\n`;
+    message += `Méthode de Paiement choisie : *${method}*.\n\n`;
+    message += "Merci de m'indiquer la procédure à suivre pour finaliser le paiement.";
+
+    // Numéro de téléphone cible (à remplacer par le vrai numéro)
+    const phoneNumber = '237699000000'; 
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+    
+    const modal = document.getElementById('payment-modal');
+    if (modal) modal.style.display = 'none';
+    
+    // Vider le panier après génération du lien (pour simuler la commande envoyée)
+    cartItems = [];
+    localStorage.removeItem('cartItems');
+    updateCartDisplay();
+}
+
+
+// --- 3. GESTION DE LA RECHERCHE (HEADER) ---
+
+function setupSearchToggle() {
+    const toggleButton = document.getElementById('toggle-search');
+    const searchWrapper = document.getElementById('search-input-wrapper');
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+
+    if (!toggleButton || !searchWrapper) return;
+
+    toggleButton.addEventListener('click', () => {
+        const isVisible = searchWrapper.classList.contains('visible');
+        if (isVisible) {
+            searchWrapper.classList.remove('visible');
+            searchWrapper.classList.add('hidden');
+        } else {
+            searchWrapper.classList.remove('hidden');
+            searchWrapper.classList.add('visible');
+            searchInput.focus();
+        }
+    });
+    
+    searchButton.addEventListener('click', (event) => {
+        event.preventDefault(); 
+        const query = searchInput.value.trim();
+        if (query) {
+            window.location.href = `category.html?search=${encodeURIComponent(query)}`;
+        }
+    });
+    
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchButton.click();
+        }
+    });
+}
+
+
+// --- 4. INITIALISATION GÉNÉRALE ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartDisplay(); 
+    setupSearchToggle(); 
+
+    // Initialisation conditionnelle pour la page Panier
+    if (document.body.classList.contains('cart-page')) {
+        renderCartItems();
+        setupCheckout();
     }
 });
