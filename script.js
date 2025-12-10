@@ -161,13 +161,12 @@ function renderCartItems() {
         itemElement.innerHTML = `
             <div class="item-details">
                 <span class="item-title">${item.title} (x${item.quantity})</span>
-                <span class="item-price">Prix unitaire : ${basePrice.toLocaleString('fr-FR')} XAF</span>
+                <span class="item-price">Prix unitaire : ${basePrice.toLocaleString('fr-FR')} FCFA</span>
             </div>
             <button class="btn-remove" data-index="${index}">Retirer</button>
         `;
         container.appendChild(itemElement);
     });
-
     summaryTotal.textContent = `${grandTotal.toLocaleString('fr-FR')} FCFA`;
     setupRemoveListeners(); 
 }
