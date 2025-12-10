@@ -100,7 +100,7 @@ function renderProducts(products) {
             <a href="product.html?id=${product.id}"><img src="${product.imageUrl.replace('600x900', '300x450')}" alt="Couverture de ${product.title}"></a>
             <h3><a href="product.html?id=${product.id}">${product.title}</a></h3>
             <p class="product-genre">${product.mediaType.toUpperCase()} ${volumeText}</p>
-            <p class="price">${product.price.toLocaleString('fr-FR')} XAF</p>
+            <p class="price">${product.price.toLocaleString('fr-FR')} FCFA</p>
             <button class="btn btn-primary btn-add-cart" data-title="${product.title}">Ajouter au Panier</button>
         `;
         productGrid.appendChild(productCard);
