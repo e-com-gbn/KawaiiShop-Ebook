@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier de Pré-Commande - Kawaii Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
+        <nav class="nav-categories">
+            <a href="category.html?genre=action">Action</a>
+            <a href="category.html?genre=fantasy">Fantaisie</a>
+            <a href="category.html?genre=scifi">Sci-Fi</a>
+        </nav>
+        
+        <div class="search-container">
+            <button id="toggle-search" aria-label="Afficher/Masquer la barre de recherche">🔍</button> 
+            
+            <div id="search-input-wrapper" class="search-input-wrapper hidden">
+                <input type="text" id="search-input" placeholder="Rechercher mangas, comics, auteurs...">
+                <button id="search-button">GO</button>
+            </div>
+        </div>
+
+        <div class="cart-icon">
+            <a href="cart.html" title="Mon panier de pré-commande">
+                🛒 <span class="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Méthode de Paiement</h2>
+            <p>Veuillez choisir votre méthode préférée pour finaliser la commande :</p>
+            <div class="payment-options">
+                <button id="pay-airtel" class="btn btn-payment">Airtel Money</button>
+                <button id="pay-mobicash" class="btn btn-payment">Mobicash</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="cart-page">
+
+        <h2>🛒 Votre Panier de Pré-Commande</h2>
+
+        <section class="cart-content">
+            
+            <div class="cart-items-container">
+                <div id="cart-list">
+                    </div>
+
+                <div id="cart-empty-message" style="display:none; text-align: center;">
+                    <p>Votre panier est vide. Visitez <a href="index.html">notre catalogue</a> pour commencer votre sélection !</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Récapitulatif de Commande</h3>
+                <p>Articles sélectionnés : <span id="summary-count">0</span></p>
+                <p class="total">Total Estimé : <span id="summary-total">0 XAF</span></p>
+                
+                <p class="whatsapp-disclaimer">
+                    ⚠️ Le prix affiché est une estimation. Le prix final sera confirmé lors de l'échange via WhatsApp.
+                </p>
+
+                <button id="checkout-button" class="btn btn-primary" disabled>
+                    Passer Commande (Choisir Paiement)
+                </button>
+
+                <p><small>La livraison se fait par envoi direct via WhatsApp après confirmation du paiement.</small></p>
+            </div>
+
+        </section>
+
+    </main>
+    
+    <footer class="main-footer">
+        <p>&copy; 2025 Kawaii Shop. Tous droits réservés.</p>
+        <nav class="footer-nav">
+            <a href="privacy-policy.html">Politique de Confidentialité</a>
+            <a href="https://www.facebook.com/votrepage" target="_blank">Page Facebook</a>
+        </nav>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

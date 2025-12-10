@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Titre du Produit] - Kawaii Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
+        <nav class="nav-categories">
+            <a href="category.html?genre=action">Action</a>
+            <a href="category.html?genre=fantasy">Fantaisie</a>
+            <a href="category.html?genre=scifi">Sci-Fi</a>
+        </nav>
+        
+        <div class="search-container">
+            <button id="toggle-search" aria-label="Afficher/Masquer la barre de recherche">🔍</button> 
+            
+            <div id="search-input-wrapper" class="search-input-wrapper hidden">
+                <input type="text" id="search-input" placeholder="Rechercher mangas, comics, auteurs...">
+                <button id="search-button">GO</button>
+            </div>
+        </div>
+
+        <div class="cart-icon">
+            <a href="cart.html" title="Mon panier de pré-commande">
+                🛒 <span class="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="product-detail-page">
+
+        <nav class="breadcrumb">
+            <a href="index.html">Accueil</a> &gt; <a href="category.html?genre=shonen">Shōnen</a> &gt; <span>Titre Exemple</span>
+        </nav>
+
+        <section class="product-details">
+            <div class="product-media">
+                <img id="product-cover" src="https://via.placeholder.com/600x900/00FFFF/FF4136?text=Couverture+du+Manga" alt="Couverture du Manga">
+                
+                <div class="series-navigation">
+                    <h4>Dans la même série :</h4>
+                    <a href="#">Tome Précédent</a> | <a href="#">Tome Suivant</a>
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1 id="product-title">Titre Complet du Manga/Comic - Tome N°5</h1>
+                <p class="author">Par <span id="product-author">Auteur Inconnu</span></p>
+
+                <div class="rating-section">
+                    <span class="stars" id="product-rating">★★★★☆</span>
+                    <span class="review-count">(150 avis lecteurs)</span>
+                </div>
+
+                <h2>Résumé</h2>
+                <p id="product-summary" class="summary">
+                    Ceci est le résumé de l'histoire. Il doit être rédigé pour captiver le lecteur sans révéler les éléments majeurs de l'intrigue. Le texte sera long et doit être très lisible.
+                    <br><br>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, temporibus. Dolores at, pariatur aperiam sit deleniti!
+                </p>
+
+                <div class="technical-details">
+                    <h3>Détails</h3>
+                    <ul>
+                        <li><strong>Format du Fichier :</strong> <span id="product-format">CBR/CBZ, PDF</span></li>
+                        <li><strong>Type de Média :</strong> <span id="product-type">Scan Manga</span></li>
+                        <li><strong>Nombre de Pages :</strong> <span id="product-pages">200 pages</span></li>
+                        <li><strong>Date de Publication :</strong> <span id="product-date">15/02/2024</span></li>
+                    </ul>
+                </div>
+
+                <hr>
+
+                <div class="purchase-section">
+                    <p class="price" id="product-price">4500 XAF</p>
+                    <button id="add-to-cart-btn" class="btn btn-primary btn-add-cart" data-title="Titre Complet du Manga - Tome N°5">
+                        Ajouter au Panier
+                    </button>
+                    
+                    <p class="payment-note">
+                        <small>Achat par pré-commande uniquement. Finalisation via WhatsApp après sélection du paiement.</small>
+                    </p>
+                </div>
+                
+                <div class="preview-section">
+                    <button class="btn btn-secondary">Lire un Aperçu Gratuit (Premières Pages)</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="product-reviews">
+            <h2>Avis des Lecteurs</h2>
+            <div class="review-list">
+                </div>
+        </section>
+
+    </main>
+    
+    <footer class="main-footer">
+        <p>&copy; 2025 Kawaii Shop. Tous droits réservés.</p>
+        <nav class="footer-nav">
+            <a href="privacy-policy.html">Politique de Confidentialité</a>
+            <a href="https://www.facebook.com/votrepage" target="_blank">Page Facebook</a>
+        </nav>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
