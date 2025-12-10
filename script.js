@@ -142,7 +142,7 @@ function renderCartItems() {
     
     if (cartItems.length === 0) {
         container.innerHTML = '<p>Votre panier est vide. Visitez le <a href="category.html?genre=tous">catalogue</a> pour commencer vos pré-commandes !</p>';
-        summaryTotal.textContent = '0 XAF';
+        summaryTotal.textContent = '0 FCFA';
         return;
     }
     
@@ -168,7 +168,7 @@ function renderCartItems() {
         container.appendChild(itemElement);
     });
 
-    summaryTotal.textContent = `${grandTotal.toLocaleString('fr-FR')} XAF`;
+    summaryTotal.textContent = `${grandTotal.toLocaleString('fr-FR')} FCFA`;
     setupRemoveListeners(); 
 }
 
@@ -248,16 +248,16 @@ function generateWhatsAppLink(method) {
         const itemTotal = item.quantity * basePrice;
         grandTotal += itemTotal;
         
-        let line = `* ${item.title} (x${item.quantity}) - ${itemTotal.toLocaleString('fr-FR')} XAF\n`;
+        let line = `* ${item.title} (x${item.quantity}) - ${itemTotal.toLocaleString('fr-FR')} FCFA\n`;
         message += line;
     });
 
-    message += `\nMontant Total Calculé : *${grandTotal.toLocaleString('fr-FR')} XAF*.\n`;
+    message += `\nMontant Total Calculé : *${grandTotal.toLocaleString('fr-FR')} FCFA*.\n`;
     message += `Méthode de Paiement choisie : *${method}*.\n\n`;
     message += "Merci de m'indiquer la procédure à suivre pour finaliser le paiement.";
 
     // Numéro de téléphone cible (à remplacer par le vrai numéro)
-    const phoneNumber = '237699000000'; 
+    const phoneNumber = '24162636600'; 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
