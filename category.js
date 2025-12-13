@@ -1,69 +1,11 @@
 /**
  * Fichier category.js - Logique de chargement, de tri, de filtrage et de recherche des produits.
+ * Ce fichier doit être chargé APRES data.js.
  */
 
-// --- 1. BASE DE DONNÉES SIMULÉE COMPLÈTE (Synchronisée avec product.js) ---
+// --- 1. RÉFÉRENCES DOM et FONCTIONS ---
 
-const MOCK_PRODUCTS = [
-   { 
-        id: 1, 
-        title: "Gachiakuta", 
-        genre: "action", 
-        mediaType: "manga", 
-        price: 300, 
-        date: "2022-02-01", 
-        minVolume: 1, // NOUVEAU
-        maxVolume: 10, // NOUVEAU
-        author: "Kei Urana",
-        pages: 20,
-        format: "CBR, PDF",
-        imageUrl: "https://m.media-amazon.com/images/M/MV5BZDU5ZmEzODYtMDU2OS00NTZiLTk4MWYtYWUyZWUzNGU2ODdjXkEyXkFqcGc@._V1_.jpg",
-        summary: "Rudo, un jeune homme rejeté par la société et envoyé dans un immense dépotoir où survivre est presque impossible. Dans ce monde brutal rempli de déchets, de créatures étranges et de secrets enfouis, Rudo découvre qu’il possède un pouvoir lié à des objets jetés par les humains. Guidé par de nouveaux alliés, il cherche à comprendre la vérité sur ce système injuste et sur son propre passé.",
-        rating: "★★★★☆"
-    },
-    { 
-        id: 2, 
-        title: "Sexy Cosplay Doll", 
-        genre: "fantasy", 
-        mediaType: "manga", 
-        price: 800, 
-        date: "2019-10-25", 
-        minVolume: 1, maxVolume: 2,
-        author: "Shin'ichi Fukuda",
-        pages: 202,
-        format: "CBZ, PDF",
-        imageUrl: "https://m.media-amazon.com/images/I/815lmrIk-fL._AC_UF1000,1000_QL80_.jpg",
-        summary: "Wakana Gojo est un lycéen de première année qui rêve de devenir un artisan de poupées hina, à l'instar de son grand-père. Un jour, au cours de son premier semestre, sa camarade de classe Marine Kitagawa, très populaire dans le lycée, le surprend en train de réaliser des costumes de poupées dans la salle de confection de vêtements de l'école.",
-        rating: "★★★★★"
-    },
-    { 
-        id: 3, 
-        title: "Marvel's Thor : Ragnarok", 
-        genre: "action", 
-        mediaType: "comics", 
-        price: 1300, 
-        date: "2017-06-23", 
-        minVolume: 1, maxVolume: 1,
-        author: "Olivier Coipel",
-        pages: 152,
-        format: "Webtoon, PDF",
-        imageUrl: "https://cdn.marvel.com/u/prod/marvel/i/mg/d/20/59cba89d5fd54/portrait_uncanny.jpg",
-        summary: "Le cycle éternel de Ragnarok décrit la naissance, la mort et la résurrection des dieux Asgardiens. Un cycle auquel Thor veut mettre fin. C’est une décision lourde de conséquences, puisqu’elle pourrait signer la disparition du panthéon d’Asgard.",
-        rating: "★★★☆☆"
-        },
-    { id: 4, title: "Sky-High Survival", genre: "action", mediaType: "manga", price: 500, date: "2013-04-15", minVolume: 1, maxVolume: 5, author: "Oba Takahiro", pages: 192, format: "CBR, PDF", imageUrl: "https://bdi.dlpdomain.com/album/9782505067498-couv-M300x425.jpg", summary: "Yuri Honjo est une lycéenne qui se retrouve soudainement sur le toit d'un immeuble, dans un monde étrange entouré de gratte-ciels. Elle tombe nez à nez avec un homme masqué qui a fendu la tête d'un homme en deux. Les gratte-ciels sont reliés par des ponts et Yuri tente de retrouver son frère qui se trouve dans le même monde qu'elle. Mais existe t-il une sortie autre que de sauter d'un toit ?", rating: "★★★★☆" },
-    { id: 5, title: "GE-Good Ending", genre: "fantasy", mediaType: "manga", price: 500, date: "2009-11-20", minVolume: 1, maxVolume: 5, author: "sasuga kei", pages: 192, format: "CBZ", imageUrl: "https://www.nautiljon.com/images/manga/00/47/ge_-_good_ending_2274.webp", summary: "Seiji Utsumi est un adolescent comme tant d'autre. Maladroit en amour, il est tétanisé rien qu'à l'idée d'avouer ses sentiments à celle qu'il aime : Shô Iketani.", rating: "★★★★☆" },
-    { id: 6, title: "Takane No Hana", genre: "fantasy", mediaType: "manga", price: 500, date: "2014-05-01", minVolume: 1, maxVolume: 5, author: "Yuki Shiwazu", pages: 192, format: "Webtoon", imageUrl: "https://www.manga-news.com/public/images/series/takane-hana-1-kaze.webp", summary: "Hana, lycéenne de 16 ans, est contrainte de prendre la place de sa sœur lors d’une rencontre arrangée ! Présentée à l'héritier du grand groupe Takaba, le très séduisant Takane Saibara, la jeune fille déchante vite face à son arrogance.", rating: "★★★★☆" },
-    { id: 7, title: "Domestic Girlfriend", genre: "fantasy", mediaType: "manga", price: 500, date: "2016-09-10", minVolume: 1, maxVolume: 5, author: "Sasuga Kei", pages: 192, format: "CBR", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB6ST4YMF61lLIOJB65XT-mHc0O55rCZQJxw&s", summary: "Natsuo Fujii est un lycéen qui est amoureux d'une de ses professeur, Hina. Un soir, après un goukon, il est invité par Rui Tachibana, l'une des filles invitées, à venir chez elle. Sa raison ? Simplement faire l'amour. D'abord réticent, il fini par accepter, sachant que rien d'autre ne se passera entre eux ensuite. Mais depuis ce jour, Natsuo se sent tourmenté par cet événement et encore plus lorsqu'il apprend le remariage de son père...", rating: "★★★★☆" },
-    { id: 8, title: "Gleipnir", genre: "scifi", mediaType: "manga", price: 500, date: "2018-02-28", minVolume: 1, maxVolume: 5, author: "Takeda Sun", pages: 176, format: "CBZ", imageUrl: "https://www.nautiljon.com/images/manga/00/55/gleipnir_5855.webp", summary: "Shuichi Kagaya est un jeune étudiant qui a la singularité de pouvoir se transformer en monstre, chose qu'il essaye de cacher à tout prix. Cependant, après avoir sauvé une jeune fille, Claire Aoki, elle découvre son secret. Cette dernière va alors faire équipe avec Shuichi pour retrouver sa sœur qui a tué sa famille...", rating: "★★★★☆" },
-    { id: 9, title: "Immortal Hulk", genre: "action", mediaType: "comics", price: 1000, date: "201-08-10", minVolume: 1, maxVolume: 10, author: "Ewing", pages: 128, format: "CBZ, CBR", imageUrl: "https://www.bedetheque.com/media/Couvertures/Couv_361867.jpg", summary: " Chaque fois que Bruce Banner meurt, Hulk revient à la vie quelques heures plus tard. À la nuit tombée, le Colosse de Jade devient cruel et déterminé. Découvrez Hulk comme vous ne l'avez jamais vu... Ce récit glaçant s'est imposé immédiatement comme une version culte du personnage.", rating: "★★★★☆" },
-    { id: 10, title: "Batman Dark Patterns", genre: "action", mediaType: "comics", price: 1200, date: "2025-05-10", minVolume: 1, maxVolume: 1, author: "Dan Watters", pages: 80, format: "CBZ, CBR", imageUrl: "https://bdi.dlpdomain.com/album/9791026825524/couv/M385x862/batman-dark-patterns-affaire-1-l-rsquo-homme-blesse.jpg", summary: "Une série de meurtres effroyables a provoqué une onde de choc à Gotham. La piste mène tout droit vers un sinistre tueur en série, au corps percé d'innombrables clous et baptisé l'écorché. Mais s'agit-il des agissements d'un seul désaxé, ou y a-t-il quelque chose d'encore plus sinistre en jeu ?", rating: "★★★★☆" },
-    { id: 11, title: "Joker Infinite", genre: "action", mediaType: "comics", price: 1300, date: "2024-08-19", minVolume: 1, maxVolume: 3, author: "James Tynion IV", pages: 160, format: "CBZ, CBR", imageUrl: "https://bdi.dlpdomain.com/album/9791026828211/couv/M385x862/joker-infinite-integrale.jpg", summary: "Depuis les événements qui paralysèrent sa fille Barbara, l'ex-commissaire reste hanté par la barbarie du Joker. Aussi, lorsque la représentante d'une mystérieuse organisation lui propose d'assassiner le Joker, Gordon y voit l'occasion de faire ce que Batman ne se résoudra jamais à faire et de débarrasser une bonne fois pour toute le monde de cet avatar du Mal absolu.", rating: "★★★★☆" },
-    { id: 12, title: "Batman - Joker War", genre: "action", mediaType: "comics", price: 1300, date: "2020-09-18", minVolume: 1, maxVolume: 3, author: "Guillem March", pages: 272, format: "CBZ, CBR", imageUrl: "https://bdi.dlpdomain.com/album/9791026817123/couv/M385x862/batman-joker-war-tome-1.jpg", summary: "À présent que la ville de Gotham est libérée du joug de Bane, Batman et Catwoman ont décidé de s'associer pour rendre la justice dans la ville déchue. Mais une affaire ancienne qui a impliqué la féline cambrioleuse et les plus grands ennemis du Chevalier Noir menace de refaire surface quand le Designer, un super-vilain oublié, fait sa réapparition. ", rating: "★★★★☆" },
-    { id: 13, title: "Ultimates Hors Série - Ultimate Iron Man", genre: "action", mediaType: "comics", price: 1000, date: "2008-10-01", minVolume: 5, maxVolume:6, author: "Orson Scott Card", pages: 107, format: "CBZ, CBR", imageUrl: "https://www.bedetheque.com/media/Couvertures/Couv_79370.jpg", summary: "Depuis toujours, Tony Stark est quelqu’un à part. Sa mère, la scientifique Maria Stark, lui transmet accidentellement un virus qui modifie son ADN. Dès lors, le corps de Tony est capable de se régénérer très rapidement. Mais dans le même temps, ses cellules deviennent hypersensibles, ce qui lui provoque de terribles douleurs. Le père de Tony, le brillant Howard Stark, patron de Stark Enterprises, finit par mettre au point une armure ultra fine qui lui colle à la peau et soulage ses souffrances. ", rating: "★★★★☆" },
-];
-
-// --- 2. RÉFÉRENCES DOM et FONCTIONS ---
+// NOTE : La base de données est maintenant dans ALL_PRODUCTS (définie dans data.js)
 
 const productGrid = document.querySelector('.product-grid');
 const categoryTitleElement = document.getElementById('category-title');
@@ -98,9 +40,12 @@ function renderProducts(products) {
         
         // Affichage de la plage de volumes pour informer le client
         const volumeText = product.maxVolume ? `(Vol. ${product.minVolume} à ${product.maxVolume})` : `(Tome Unique)`;
+        
+        // Utilise imageUrl pour le catalogue
+        const imageUrl = product.imageUrl || product.detailImageUrl.replace('600x900', '300x450'); 
 
         productCard.innerHTML = `
-            <a href="product.html?id=${product.id}"><img src="${product.imageUrl.replace('600x900', '300x450')}" alt="Couverture de ${product.title}"></a>
+            <a href="product.html?id=${product.id}"><img src="${imageUrl}" alt="Couverture de ${product.title}"></a>
             <h3><a href="product.html?id=${product.id}">${product.title}</a></h3>
             <p class="product-genre">${product.mediaType.toUpperCase()} ${volumeText}</p>
             <p class="price">${product.price.toLocaleString('fr-FR')} FCFA</p>
@@ -109,7 +54,8 @@ function renderProducts(products) {
         productGrid.appendChild(productCard);
     });
     
-    const totalMocks = MOCK_PRODUCTS.length; 
+    // Utilise ALL_PRODUCTS pour le décompte total
+    const totalMocks = ALL_PRODUCTS.length; 
     resultCountElement.textContent = `Affichage de ${products.length} résultats sur ${totalMocks}`;
 
     setupCartListeners();
@@ -119,7 +65,8 @@ function renderProducts(products) {
  * Fonction principale pour appliquer les filtres, le tri et la recherche.
  */
 function applyFiltersAndSort() {
-    let filteredProducts = MOCK_PRODUCTS;
+    // Utilise ALL_PRODUCTS
+    let filteredProducts = ALL_PRODUCTS;
     const { genre: currentGenre, searchQuery } = getCurrentUrlParams();
     
     let genreName = currentGenre.charAt(0).toUpperCase() + currentGenre.slice(1);
@@ -192,18 +139,37 @@ function setupCategoryListeners() {
     applyFiltersAndSort();
 }
 
+// ... (code précédent de category.js)
+
 function setupCartListeners() {
      document.querySelectorAll('.btn-add-cart').forEach(button => {
         button.addEventListener('click', (event) => {
             const productTitle = event.target.getAttribute('data-title');
+            
+            // Trouver la carte produit parente pour l'animation
+            const productCard = event.target.closest('.product-card');
+
             if (productTitle && typeof addToCart === 'function') { 
                 addToCart(productTitle);
+                
+                // --- AJOUT DE L'ANIMATION DE FLASH ---
+                if (productCard) {
+                    productCard.classList.add('clicked-flash');
+                    // Supprimer la classe après l'animation (0.5s + marge)
+                    setTimeout(() => {
+                        productCard.classList.remove('clicked-flash');
+                    }, 550); 
+                }
+                // ------------------------------------
+                
             } else {
                 console.error("Erreur: addToCart non trouvé ou titre manquant.");
             }
         });
     });
 }
+
+// ... (reste du code de category.js)
 
 
 // --- 3. INITIALISATION ---
