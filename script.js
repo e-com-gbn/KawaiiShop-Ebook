@@ -1,80 +1,29 @@
 /**
  * Fichier script.js - Logique globale du site (Panier, Modale, Navigation).
- * Ce fichier doit être chargé sur TOUTES les pages.
+ * Ce fichier doit être chargé sur TOUTES les pages, APRES data.js.
  */
 
-// --- BASE DE DONNÉES MINIMALE POUR LE CALCUL DU PRIX ---
-// Cette liste est essentielle pour que le panier puisse calculer le total.
-const PRICE_MAP = [
-    { 
-        id: 1, 
-        title: "Gachiakuta", 
-        genre: "fantasy", 
-        mediaType: "manga", 
-        price: 300, 
-        date: "2022-02-01", 
-        minVolume: 1, // NOUVEAU
-        maxVolume: 10, // NOUVEAU
-        author: "Kei Urana",
-        pages: 20,
-        format: "CBR, PDF",
-        imageUrl: "https://m.media-amazon.com/images/M/MV5BZDU5ZmEzODYtMDU2OS00NTZiLTk4MWYtYWUyZWUzNGU2ODdjXkEyXkFqcGc@._V1_.jpg",
-        summary: "Rudo, un jeune homme rejeté par la société et envoyé dans un immense dépotoir où survivre est presque impossible. Dans ce monde brutal rempli de déchets, de créatures étranges et de secrets enfouis, Rudo découvre qu’il possède un pouvoir lié à des objets jetés par les humains. Guidé par de nouveaux alliés, il cherche à comprendre la vérité sur ce système injuste et sur son propre passé.",
-        rating: "★★★★☆"
-    },
-    { 
-        id: 2, 
-        title: "Sexy Cosplay Doll", 
-        genre: "fantasy", 
-        mediaType: "manga", 
-        price: 800, 
-        date: "2019-10-25", 
-        minVolume: 1, maxVolume: 2,
-        author: "Shin'ichi Fukuda",
-        pages: 202,
-        format: "CBZ, PDF",
-        imageUrl: "https://m.media-amazon.com/images/I/815lmrIk-fL._AC_UF1000,1000_QL80_.jpg",
-        summary: "Wakana Gojo est un lycéen de première année qui rêve de devenir un artisan de poupées hina, à l'instar de son grand-père. Un jour, au cours de son premier semestre, sa camarade de classe Marine Kitagawa, très populaire dans le lycée, le surprend en train de réaliser des costumes de poupées dans la salle de confection de vêtements de l'école.",
-        rating: "★★★★★"
-    },
-    { 
-        id: 3, 
-        title: "Marvel's Thor : Ragnarok", 
-        genre: "action", 
-        mediaType: "comics", 
-        price: 1300, 
-        date: "2017-06-23", 
-        minVolume: 1, maxVolume: 1,
-        author: "Olivier Coipel",
-        pages: 152,
-        format: "Webtoon, PDF",
-        imageUrl: "https://cdn.marvel.com/u/prod/marvel/i/mg/d/20/59cba89d5fd54/portrait_uncanny.jpg",
-        summary: "Le cycle éternel de Ragnarok décrit la naissance, la mort et la résurrection des dieux Asgardiens. Un cycle auquel Thor veut mettre fin. C’est une décision lourde de conséquences, puisqu’elle pourrait signer la disparition du panthéon d’Asgard.",
-        rating: "★★★☆☆"
-        },
-    { id: 4, title: "Titre Shōnen A - T.1", price: 3500 },
-    { id: 5, title: "Bande Dessinée B - Vol.3", price: 5000 },
-    { id: 6, title: "Webtoon Mystère", price: 2800 },
-    { id: 7, title: "L'Ombre Fantôme", price: 4000 },
-    { id: 8, title: "Le Secret des Étoiles", price: 6000 },
-    { id: 9, title: "Aventure Épique", price: 4000 },
-    { id: 10, title: "Chasseurs de l'Espace", price: 3200 },
-];
-// --- FIN BASE DE DONNÉES MINIMALE ---
-
+// NOTE : Les données de prix (PRICE_MAP) sont maintenant définies dans data.js
 
 // --- 1. GESTION DU PANIER (LOCAL STORAGE) ---
 
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
 function getBasePrice(baseTitle) {
+    // UTILISE LA VARIABLE PRICE_MAP DE data.js
+    // Si data.js est correctement chargé, PRICE_MAP existe.
+    if (typeof PRICE_MAP === 'undefined') {
+         console.error("ERREUR CRITIQUE : PRICE_MAP n'est pas défini. Vérifiez si data.js est chargé en premier.");
+         return 3000; // Prix par défaut de secours
+    }
+    
     const product = PRICE_MAP.find(p => p.title === baseTitle);
     return product ? product.price : 3000; 
 }
 
 /**
  * Ajoute un produit au panier, gérant le volume/chapitre pour product.html.
- * Reste accessible globalement pour product.js et category.js.
+ * Reste accessible globalement pour product.js, category.js, et home.js.
  */
 function addToCart(productTitle) {
     let volumeNumber = null;
@@ -167,6 +116,7 @@ function renderCartItems() {
         `;
         container.appendChild(itemElement);
     });
+
     summaryTotal.textContent = `${grandTotal.toLocaleString('fr-FR')} FCFA`;
     setupRemoveListeners(); 
 }
