@@ -1,527 +1,243 @@
-/*
- * Fichier style.css - Styles généraux et Otaku/Japonais
- * Inclut les styles pour les cartes, les animations, et la galerie d'images (Capacité 3).
- */
+/* ============================================================
+   KAWAII SHOP - STYLE OFFICIEL V6.0 (MAJ FINALE)
+   Thème : Anime Vibrant (Blanc, Rouge, Orange)
+   Style : Mix Amazon/Netflix + 3D Effects
+   ============================================================ */
 
-/* --- 1. BASE ET TYPOGRAPHIE --- */
-
-/* Utilisation d'une police de style otaku/gamer */
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;600;800&display=swap');
 
 :root {
-    --color-primary: #FF4136; /* Rouge Vif (Action) */
-    --color-secondary: #0074D9; /* Bleu Électrique (Sci-Fi) */
-    --color-accent: #FFDC00; /* Jaune/Or (Fantasy/Highlight) */
-    --color-background: #111111; /* Fond Sombre */
-    --color-text-light: #F0F0F0;
-    --color-text-dark: #333333;
-    --border-radius: 8px;
+    --primary-red: #E50914;      /* Rouge Netflix */
+    --accent-orange: #FF8C00;    /* Orange One Piece */
+    --bg-white: #FFFFFF;
+    --bg-light: #F8F9FA;         /* Gris très clair pour le fond */
+    --text-dark: #1A1A1A;        /* Noir profond pour lisibilité */
+    --white: #FFFFFF;
 }
 
+/* --- BASE --- */
 body {
-    font-family: 'Chakra Petch', sans-serif; /* Police Style Geek */
-    background-color: var(--color-background);
-    color: var(--color-text-light);
+    font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0;
-    line-height: 1.6;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    overflow-x: hidden;
 }
 
-a {
-    color: var(--color-accent);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-a:hover {
-    color: var(--color-primary);
-}
-
-h1, h2, h3, h4 {
-    font-weight: 700;
-    color: var(--color-text-light);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Effet "Néon" subtil */
-}
-
-main {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Breadcrumb */
-.breadcrumb {
-    padding: 10px 0;
-    font-size: 0.9em;
-    color: #888;
-}
-.breadcrumb a {
-    color: var(--color-secondary);
-}
-
-
-/* --- 2. EN-TÊTE ET NAVIGATION --- */
-
+/* --- HEADER NOIR & CHAPEAU DE PAILLE --- */
 .main-header {
-    background: linear-gradient(90deg, #1f1f1f, #2a2a2a);
-    padding: 15px 30px;
+    background: #000;
+    padding: 15px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 3px solid var(--color-primary);
+    border-bottom: 5px solid var(--primary-red);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
-.logo a {
-    font-size: 1.8em;
-    color: var(--color-accent);
-    text-shadow: 0 0 10px var(--color-primary); /* Vrai effet néon sur le titre */
-}
-
-.nav-categories a {
-    margin-left: 20px;
-    padding: 5px 10px;
-    border: 1px solid transparent;
-    transition: all 0.3s;
-}
-
-.nav-categories a:hover {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 5px var(--color-primary);
-}
-
-/* Recherche */
-.search-input-wrapper.hidden {
-    display: none;
-}
-.search-input-wrapper.visible {
+.logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2.2rem;
+    color: var(--white) !important;
+    text-decoration: none;
     display: flex;
     align-items: center;
-}
-#search-input {
-    padding: 5px;
-    border-radius: 4px 0 0 4px;
-    border: 1px solid var(--color-secondary);
-    background-color: #222;
-    color: var(--color-text-light);
-}
-#search-button {
-    padding: 5px 10px;
-    border: none;
-    background-color: var(--color-secondary);
-    color: white;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
+    gap: 15px;
 }
 
-/* Panier */
-.cart-icon a {
-    font-size: 1.3em;
-    color: var(--color-text-light);
-}
-.cart-count {
-    background-color: var(--color-primary);
-    color: white;
-    border-radius: 50%;
-    padding: 2px 7px;
-    font-size: 0.7em;
-    position: relative;
-    top: -10px;
-    left: -5px;
+.logo span { color: var(--primary-red); }
+
+/* L'icône Chapeau de Paille */
+.logo::before {
+    content: "";
+    width: 45px;
+    height: 45px;
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-
-/* --- 3. BANNIÈRE / SECTIONS PRINCIPALES --- */
-
-.hero-banner {
-    background: url('https://via.placeholder.com/1200x300/333333/FFDC00?text=K A W A I I+S H O P') center/cover no-repeat;
-    padding: 50px;
-    margin-bottom: 30px;
-    text-align: center;
-    border-radius: var(--border-radius);
-    box-shadow: 0 0 20px rgba(255, 65, 54, 0.5);
-}
-
-.hero-banner h2 {
-    color: white;
-    text-shadow: 3px 3px 5px var(--color-background);
-}
-
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
+nav a {
+    color: var(--white) !important;
+    text-decoration: none;
+    margin-left: 20px;
     font-weight: 700;
-    transition: transform 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: 0.3s;
 }
 
-.btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-background); /* Texte noir sur rouge vif */
-    border: 2px solid var(--color-primary);
+nav a:hover { color: var(--accent-orange) !important; }
+
+/* --- BANNIÈRE DE PROMO (CENTRAGE PARFAIT) --- */
+.promo-banner-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    padding: 0 5%;
+    box-sizing: border-box;
 }
 
-.btn-primary:hover {
-    background-color: transparent;
-    color: var(--color-primary);
-    box-shadow: 0 0 15px var(--color-primary);
-    transform: scale(1.05);
+.promo-banner-link {
+    width: 100%;
+    max-width: 1200px; /* Largeur Amazon pour pas être trop étiré */
+    display: block;
 }
 
-.btn-secondary {
-    background-color: transparent;
-    color: var(--color-accent);
-    border: 2px solid var(--color-accent);
-}
-
-.btn-secondary:hover {
-    background-color: var(--color-accent);
-    color: var(--color-background);
-    transform: scale(1.05);
-}
-
-
-/* --- 4. STYLE DES CARTES PRODUITS (CATALOGUE & ACCUEIL) --- */
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    padding-top: 20px;
-}
-
-.product-card {
-    background-color: #2a2a2a;
-    border-radius: var(--border-radius);
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.product-card:hover {
-    /* Effet 3D léger au survol */
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(255, 65, 54, 0.6); /* Ombre rougeoyante */
-}
-
-.product-card img {
+.promo-banner-img {
     width: 100%;
     height: auto;
-    max-height: 350px;
+    display: block;
+    border-radius: 15px;
+    border: 3px solid var(--primary-red);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.promo-banner-img:hover {
+    transform: scale(1.01);
+}
+
+/* --- GRILLE 8 COLONNES (Style Amazon) --- */
+.product-grid {
+    display: grid;
+    padding: 20px 5%;
+    gap: 20px;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+@media (max-width: 1600px) { .product-grid { grid-template-columns: repeat(6, 1fr); } }
+@media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 700px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* --- CARTES 3D FLIP (Style Netflix au survol) --- */
+.product-card {
+    perspective: 1000px;
+    height: 400px; /* Format Portrait Manga */
+}
+
+.product-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.product-card:hover .product-card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.card-front {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-front img {
+    width: 100%;
+    height: 75%;
     object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: 2px solid var(--color-background);
-    transition: border-color 0.3s;
 }
 
-.product-card:hover img {
-    border-color: var(--color-accent);
+.card-info {
+    padding: 10px;
+    text-align: center;
+    background: var(--white);
 }
 
-.product-card h3 {
-    font-size: 1.1em;
-    margin: 10px 0;
-    line-height: 1.2;
+.card-info h3 {
+    font-size: 0.85rem;
+    margin: 5px 0;
+    color: var(--text-dark);
 }
 
 .price {
-    font-size: 1.4em;
-    color: var(--color-accent);
-    margin: 10px 0 15px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    font-family: 'Bangers', cursive;
+    color: var(--primary-red);
+    font-size: 1.2rem;
 }
 
-.product-genre {
-    font-size: 0.8em;
-    color: #AAAAAA;
-    margin-bottom: 5px;
-}
-
-/* --- ANIMATION AU CLIC SUBLIME (NOUVELLE RÈGLE) --- */
-
-@keyframes flash-out {
-    0% { background-color: rgba(255, 255, 255, 0.8); box-shadow: 0 0 40px var(--color-accent); opacity: 1; }
-    100% { background-color: transparent; box-shadow: none; opacity: 0; }
-}
-
-/* Appliqué à la carte produit ou au bouton */
-.clicked-flash::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    animation: flash-out 0.5s ease-out;
-    pointer-events: none; 
-}
-
-
-/* --- 5. PAGE DÉTAIL PRODUIT (product.html) --- */
-
-.product-detail-page {
-    display: flex;
-    gap: 40px;
-    background-color: #2a2a2a;
-    padding: 30px;
-    border-radius: var(--border-radius);
-    flex-wrap: wrap; /* Pour la réactivité */
-}
-
-/* --- 5.1. STYLE DE LA GALERIE D'IMAGES (NOUVEAU) --- */
-
-.image-gallery-wrapper {
+/* Face Arrière Détails */
+.card-back {
+    background: #1a1a1a;
+    color: var(--white);
+    transform: rotateY(180deg);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    max-width: 450px; 
-}
-
-.cover-image-container {
-    margin-bottom: 15px;
-    border: 3px solid var(--color-background);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    border-radius: var(--border-radius);
-    overflow: hidden; 
-}
-
-.cover-image-container img {
-    width: 100%;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    border: none;
-    box-shadow: none;
-}
-
-.gallery-thumbnails {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto; 
-    padding-bottom: 5px; 
-    scrollbar-color: var(--color-primary) #333333;
-    scrollbar-width: thin;
-}
-
-.gallery-thumbnails::-webkit-scrollbar {
-    height: 8px;
-}
-.gallery-thumbnails::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 4px;
-}
-.gallery-thumbnails::-webkit-scrollbar-track {
-    background: #333333;
-}
-
-
-.thumbnail {
-    width: 80px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s, transform 0.2s;
-    opacity: 0.7;
-    flex-shrink: 0; 
-}
-
-.thumbnail:hover {
-    border-color: var(--color-secondary);
-    transform: scale(1.05);
-    opacity: 1;
-}
-
-.thumbnail.active {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 10px var(--color-accent);
-    opacity: 1;
-}
-
-/* --- 5.2. DÉTAILS DU CONTENU --- */
-.details-content {
-    flex-grow: 1;
-    min-width: 300px;
-}
-
-.volume-selector {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 15px;
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #333333;
-    border-left: 5px solid var(--color-secondary);
-    border-radius: 5px;
+    text-align: center;
 }
 
-#volume-number {
-    width: 80px;
-    padding: 8px;
-    border: 1px solid var(--color-secondary);
-    border-radius: 4px;
-    background-color: #1a1a1a;
-    color: var(--color-text-light);
-}
+.card-back h4 { color: var(--accent-orange); margin-bottom: 10px; }
+.card-back p { font-size: 0.8rem; color: #ccc; line-height: 1.4; }
 
-.product-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
+/* --- PANIER ULTRA-ÉCLAIRÉ --- */
+.cart-container {
+    background: var(--white) !important;
+    color: var(--text-dark) !important;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
-
-.info-item strong {
-    color: var(--color-accent);
-}
-
-/* --- 6. PAGE PANIER (cart.html) --- */
 
 .cart-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 15px;
-    margin-bottom: 10px;
-    background-color: #2a2a2a;
-    border-radius: 5px;
-    border-left: 4px solid var(--color-primary);
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.item-details {
-    flex-grow: 1;
+.cart-item h4 { color: var(--text-dark); margin: 0; }
+.total-price {
+    font-family: 'Bangers', cursive;
+    font-size: 2.5rem;
+    color: var(--text-dark);
+    margin: 20px 0;
 }
 
-.item-title {
-    display: block;
-    font-size: 1.1em;
-    font-weight: 700;
-}
-
-.item-price {
-    color: #AAAAAA;
-    font-size: 0.9em;
-}
-
-.cart-summary {
-    background-color: #1a1a1a;
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: var(--border-radius);
-    border: 1px dashed var(--color-accent);
-}
-
-/* Modale de Paiement (WhatsApp) */
-.modal {
-    /* Style pour assurer que la modale est centrée et visible */
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.7); 
-}
-
-.modal-content {
-    background-color: #2a2a2a;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 2px solid var(--color-primary);
-    border-radius: var(--border-radius);
-    width: 80%; 
-    max-width: 500px;
-    position: relative;
-    box-shadow: 0 5px 15px rgba(255, 65, 54, 0.5);
-}
-
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: var(--color-primary);
-    text-decoration: none;
+/* --- BOUTONS --- */
+.btn-glow {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 800;
     cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.75rem;
 }
 
-.payment-options {
-    margin-top: 15px;
-}
+.gold { background: var(--primary-red); color: var(--white); }
+.blue { background: #333; color: var(--white); }
 
-.payment-option {
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-    border: 1px solid #444444;
-}
+.gold:hover, .blue:hover { opacity: 0.9; transform: scale(1.05); }
 
-.payment-option:hover {
-    background-color: #333333;
-    transform: translateX(5px);
-    border-color: var(--color-secondary);
-}
-
-
-/* --- 7. PIED DE PAGE --- */
-
-.main-footer {
-    background-color: #1a1a1a;
-    color: #AAAAAA;
+/* --- TITRES --- */
+#category-title {
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
     text-align: center;
-    padding: 20px;
-    margin-top: 50px;
-    border-top: 3px solid var(--color-secondary);
-}
-
-.footer-nav a {
-    margin: 0 10px;
-    color: var(--color-accent);
-}
-
-/* --- 8. MÉDIAS QUERIES (Réactivité) --- */
-
-@media (max-width: 768px) {
-    .main-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .nav-categories {
-        margin-top: 10px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .nav-categories a {
-        margin-right: 10px;
-        margin-left: 0;
-        margin-bottom: 5px;
-    }
-    /* La section détail devient en colonne sur mobile */
-    .product-detail-page {
-        flex-direction: column;
-    }
-    .image-gallery-wrapper {
-        max-width: 100%;
-    }
-    .product-info-grid {
-         grid-template-columns: 1fr;
-    }
-    .modal-content {
-        margin: 20% auto;
-        width: 90%;
-    }
+    color: var(--text-dark);
+    margin: 30px 0;
 }
