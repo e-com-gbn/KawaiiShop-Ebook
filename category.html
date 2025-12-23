@@ -3,79 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue - Kawaii Shop</title>
+    <title>Catégories | KAWAII SHOP</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="category-page">
+<body>
 
     <header class="main-header">
-        <div class="logo"><h1><a href="index.html">Kawaii Shop</a></h1></div>
-        <nav class="nav-categories">
+        <a href="index.html" class="logo">KAWAII <span>SHOP</span></a>
+        <nav>
             <a href="category.html?genre=action">Action</a>
             <a href="category.html?genre=fantasy">Fantaisie</a>
             <a href="category.html?genre=scifi">Sci-Fi</a>
+            <a href="cart.html">🛒 BUTIN (<span class="cart-count">0</span>)</a>
         </nav>
-        
-        <div class="search-container">
-            <button id="toggle-search" aria-label="Afficher/Masquer la barre de recherche">🔍</button> 
-            <div id="search-input-wrapper" class="search-input-wrapper hidden">
-                <input type="text" id="search-input" placeholder="Rechercher mangas, comics, auteurs...">
-                <button id="search-button">GO</button>
-            </div>
-        </div>
-
-        <div class="cart-icon">
-            <a href="cart.html" title="Mon panier de pré-commande">
-                🛒 <span class="cart-count">0</span>
-            </a>
-        </div>
     </header>
 
-    <main class="category-main">
-        <h1 id="category-title">Catégorie : Tous</h1>
-        <p id="result-count">Chargement...</p>
+    <main>
+        <h2 id="category-title">CHARGEMENT...</h2>
 
-        <section class="filters-and-sort">
-            <div class="filters-sidebar">
-                <h3>Filtrer et Trier</h3>
-                
-                <div class="filter-group">
-                    <h4>Type de média</h4>
-                    <label><input type="checkbox" name="media-type" value="manga"> Manga (Jap.)</label>
-                    <label><input type="checkbox" name="media-type" value="comics"> Comics (BD)</label>
-                    <label><input type="checkbox" name="media-type" value="scan"> Scan/Webtoon</label>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Trier par</h4>
-                    <select id="sort-by-date">
-                        <option value="newest">Plus récents d'abord</option>
-                        <option value="oldest">Plus anciens d'abord</option>
-                        <option value="price_asc">Prix croissant</option>
-                        <option value="price_desc">Prix décroissant</option>
-                    </select>
-                </div>
+        <div id="category-grid" class="product-grid">
             </div>
-
-            <div class="product-grid-container">
-                <div class="product-grid">
-                    <p>Chargement des produits...</p>
-                </div>
-            </div>
-        </section>
-
     </main>
-    
-    <footer class="main-footer">
-        <p>&copy; 2025 Kawaii Shop. Tous droits réservés.</p>
-        <nav class="footer-nav">
-            <a href="privacy-policy.html">Politique de Confidentialité</a>
-            <a href="https://www.facebook.com/votrepage" target="_blank">Page Facebook</a>
-        </nav>
+
+    <footer style="background:#000; color:#fff; text-align:center; padding:40px; margin-top:50px; border-top:5px solid var(--primary-red);">
+        <p style="font-family:'Bangers'; font-size:1.5rem;">KAWAII SHOP &copy; 2024</p>
     </footer>
 
-    <script src="data.js"></script> 
+    <script src="data.js"></script>
     <script src="script.js"></script>
-    <script src="category.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Récupérer le genre dans l'URL (ex: action)
+            const params = new URLSearchParams(window.location.search);
+            const genreCible = params.get('genre');
+            
+            const titleElement = document.getElementById('category-title');
+            const gridElement = document.getElementById('category-grid');
+
+            if (genreCible && typeof ALL_PRODUCTS !== 'undefined') {
+                // 2. Filtrer les produits (on utilise normalize pour éviter les erreurs de majuscules/accents)
+                const produitsFiltrés = ALL_PRODUCTS.filter(p => 
+                    normalize(p.genre) === normalize(genreCible)
+                );
+
+                // 3. Mettre à jour le titre de la page
+                titleElement.textContent = genreCible.toUpperCase();
+
+                // 4. Afficher les produits si on en trouve
+                if (produitsFiltrés.length > 0) {
+                    displayProducts(produitsFiltrés, 'category-grid');
+                } else {
+                    gridElement.innerHTML = `<p style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 1.2rem;">
+                        Aucun trésor trouvé dans la catégorie ${genreCible} pour le moment...
+                    </p>`;
+                }
+            } else {
+                titleElement.textContent = "CATÉGORIE INCONNUE";
+            }
+        });
+    </script>
 </body>
 </html>
