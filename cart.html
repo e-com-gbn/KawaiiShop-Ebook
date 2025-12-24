@@ -5,8 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Butin | KAWAII SHOP</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --whatsapp-green: #25D366;
+            --danger-red: #ff4d4d;
+        }
+
+        body { background-color: #f4f4f4; }
+
+        .cart-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .item-info { flex: 1; }
+        .item-title { display: block; font-weight: 800; font-size: 1.1rem; color: #000; }
+        .item-details { color: var(--primary-red); font-weight: 600; }
+
+        .remove-btn {
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .remove-btn:active { transform: scale(0.9); background: #cc0000; }
+
+        .payment-box {
+            background: #fff5f5;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--primary-red);
+        }
+
+        .payment-box label {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        #cart-payment-method {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .btn-whatsapp-final {
+            background-color: var(--whatsapp-green) !important;
+            color: white !important;
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Bangers', cursive;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn-whatsapp-final:active { transform: scale(0.97); }
+    </style>
 </head>
 <body>
+
     <header class="main-header">
         <a href="index.html" class="logo">KAWAII <span>SHOP</span></a>
         <div class="menu-toggle" id="mobile-menu">
@@ -16,67 +111,71 @@
             <a href="index.html">Accueil</a>
             <a href="category.html?genre=action">Action</a>
             <a href="category.html?genre=fantasy">Fantaisie</a>
-            <a href="cart.html">🛒 BUTIN</a>
+            <a href="cart.html" class="cart-link">🛒 BUTIN (<span class="cart-count">0</span>)</a>
         </nav>
     </header>
 
-    <main style="padding: 20px;">
-        <div class="cart-container" style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-            <h2 style="font-family:'Bangers'; font-size: 2.5rem; text-align: center; color: #000;">VOTRE BUTIN 🏴‍☠️</h2>
+    <main style="padding: 15px;">
+        <div class="cart-container">
+            <h2 style="font-family:'Bangers'; font-size: 2.5rem; text-align: center; margin-bottom: 20px;">VOTRE BUTIN 🏴‍☠️</h2>
             
-            <div id="cart-items-list" style="margin: 20px 0;">
+            <div id="cart-items-list">
                 </div>
 
-            <hr style="border: 0; border-top: 2px dashed #eee; margin: 20px 0;">
-
-            <div class="payment-selection" style="margin-bottom: 25px;">
-                <label style="font-weight: 800; display: block; margin-bottom: 10px; color: var(--primary-red);">
-                    CHOISISSEZ VOTRE MODE DE PAIEMENT :
-                </label>
-                <select id="cart-payment-method" style="width: 100%; padding: 15px; border: 2px solid #000; border-radius: 8px; font-weight: bold; font-size: 1rem;">
+            <div class="payment-box">
+                <label>MODE DE PAIEMENT PRÉFÉRÉ :</label>
+                <select id="cart-payment-method">
                     <option value="Airtel Money 🔴">Airtel Money 🔴</option>
-                    <option value="Moov Money / Mobicash 🔵">Moov Money / Mobicash 🔵</option>
+                    <option value="Moov Money / Mobicash 🔵">Moov/Mobicash 🔵</option>
                 </select>
             </div>
 
-            <div class="cart-summary" style="text-align: center;">
-                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">TOTAL : <span id="cart-total-price" style="color: var(--primary-red);">0</span> FCFA</h3>
+            <div style="text-align: center;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 15px;">TOTAL : <span id="cart-total-price">0</span> FCFA</h3>
                 
-                <button onclick="envoyerCommandeWhatsApp()" class="btn-glow gold" style="width: 100%; padding: 20px; font-size: 1.2rem; cursor: pointer;">
-                    COMMANDER VIA WHATSAPP
+                <button type="button" class="btn-whatsapp-final" onclick="validerCommandeWhatsApp()">
+                    VALIDER LA COMMANDE
                 </button>
-                
-                <button onclick="viderPanier()" style="margin-top: 15px; background: none; border: none; color: #888; text-decoration: underline; cursor: pointer;">
-                    Vider le panier
-                </button>
+
+                <p style="margin-top: 20px; font-size: 0.8rem; color: #888;">
+                    En cliquant, vous serez redirigé vers WhatsApp pour finaliser le paiement.
+                </p>
             </div>
         </div>
     </main>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
+
     <script>
-        // 1. Fonction pour afficher les produits du panier
-        function renderCart() {
+        // Fonction pour charger et afficher le panier
+        function renderCartPage() {
             const list = document.getElementById('cart-items-list');
             const totalDisplay = document.getElementById('cart-total-price');
-            
-            if (cartItems.length === 0) {
-                list.innerHTML = "<p style='text-align:center; padding: 20px;'>Votre panier est vide... pour l'instant ! ⛵</p>";
+            let savedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+            if (savedCart.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding: 40px 10px;">
+                        <p style="font-size: 1.2rem; color: #666;">Ton butin est vide, pirate !</p>
+                        <br>
+                        <a href="index.html" style="color: var(--primary-red); font-weight: bold;">Retourner recruter des mangas</a>
+                    </div>`;
                 totalDisplay.innerText = "0";
                 return;
             }
 
             let total = 0;
-            list.innerHTML = cartItems.map((item, index) => {
+            list.innerHTML = savedCart.map((item, index) => {
                 total += item.price * item.quantity;
                 return `
-                    <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
-                        <div>
-                            <strong style="display:block;">${item.title}</strong>
-                            <span style="font-size: 0.9rem; color: #666;">Prix: ${item.price.toLocaleString()} FCFA</span>
+                    <div class="cart-item">
+                        <div class="item-info">
+                            <span class="item-title">${item.title}</span>
+                            <span class="item-details">${(item.price * item.quantity).toLocaleString()} FCFA</span>
+                            <span style="font-size:0.8rem; color:#777;"> (x${item.quantity})</span>
                         </div>
-                        <div style="font-weight: bold;">x${item.quantity}</div>
+                        <button class="remove-btn" onclick="supprimerDuPanier(${index})">✕</button>
                     </div>
                 `;
             }).join('');
@@ -84,45 +183,45 @@
             totalDisplay.innerText = total.toLocaleString();
         }
 
-        // 2. Fonction pour envoyer vers WhatsApp
-        function envoyerCommandeWhatsApp() {
-            if (cartItems.length === 0) {
+        // Fonction pour supprimer un produit
+        function supprimerDuPanier(index) {
+            let savedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+            savedCart.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(savedCart));
+            
+            renderCartPage(); // Refresh la liste
+            if (typeof updateCartCount === 'function') updateCartCount(); // Refresh le badge header
+        }
+
+        // Fonction pour envoyer vers WhatsApp
+        function validerCommandeWhatsApp() {
+            let savedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+            if (savedCart.length === 0) {
                 alert("Votre panier est vide !");
                 return;
             }
 
-            const methode = document.getElementById('cart-payment-method').value;
-            const total = document.getElementById('cart-total-price').innerText;
-            
-            // Construction du texte de la commande
-            let texte = `Bonjour KAWAII SHOP ! 🏴‍☠️\n\nVoici ma commande :\n`;
-            
-            cartItems.forEach(item => {
-                texte += `- ${item.title} (x${item.quantity})\n`;
+            const modePaiement = document.getElementById('cart-payment-method').value;
+            const totalFinal = document.getElementById('cart-total-price').innerText;
+            const monNumero = "24162636600";
+
+            let message = "Bonjour KAWAII SHOP ! 🏴‍☠️\n\nJe souhaite valider ma commande :\n";
+            savedCart.forEach(item => {
+                message += `• ${item.title} (x${item.quantity})\n`;
             });
 
-            texte += `\n💰 *TOTAL : ${total} FCFA*`;
-            texte += `\n💳 *Mode de paiement : ${methode}*`;
-            texte += `\n\nMerci de confirmer la disponibilité !`;
+            message += `\n💰 *TOTAL : ${totalFinal} FCFA*`;
+            message += `\n💳 *PAIEMENT : ${modePaiement}*`;
+            message += `\n\nMerci de me confirmer la réception !`;
 
-            const numWhatsApp = "24162636600"; // Ton numéro
-            const url = `https://wa.me/${numWhatsApp}?text=${encodeURIComponent(texte)}`;
+            const url = "https://wa.me/" + monNumero + "?text=" + encodeURIComponent(message);
             
-            window.open(url, '_blank');
+            // Redirection robuste pour mobile
+            window.location.href = url;
         }
 
-        // 3. Vider le panier
-        function viderPanier() {
-            if(confirm("Voulez-vous vider votre butin ?")) {
-                cartItems = [];
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                renderCart();
-                updateCartCount();
-            }
-        }
-
-        // Lancer l'affichage au chargement
-        document.addEventListener('DOMContentLoaded', renderCart);
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', renderCartPage);
     </script>
 </body>
 </html>
