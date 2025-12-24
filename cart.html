@@ -14,17 +14,41 @@
         </div>
         <nav class="nav-menu">
             <a href="index.html">Accueil</a>
+            <a href="category.html?genre=action">Action</a>
+            <a href="category.html?genre=fantasy">Fantaisie</a>
             <a href="cart.html">🛒 BUTIN</a>
         </nav>
     </header>
 
-    <main>
-        <div class="cart-container">
-            <h2 style="font-family:'Bangers'; font-size:2.5rem;">VOTRE BUTIN</h2>
-            <div id="cart-items-list"></div>
-            <div class="total-section">
-                <h3>TOTAL : <span id="cart-total-price">0</span> FCFA</h3>
-                <button class="btn-glow gold" style="width:100%; padding:20px;" onclick="validerPanier()">VALIDER VIA WHATSAPP</button>
+    <main style="padding: 20px;">
+        <div class="cart-container" style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <h2 style="font-family:'Bangers'; font-size: 2.5rem; text-align: center; color: #000;">VOTRE BUTIN 🏴‍☠️</h2>
+            
+            <div id="cart-items-list" style="margin: 20px 0;">
+                </div>
+
+            <hr style="border: 0; border-top: 2px dashed #eee; margin: 20px 0;">
+
+            <div class="payment-selection" style="margin-bottom: 25px;">
+                <label style="font-weight: 800; display: block; margin-bottom: 10px; color: var(--primary-red);">
+                    CHOISISSEZ VOTRE MODE DE PAIEMENT :
+                </label>
+                <select id="cart-payment-method" style="width: 100%; padding: 15px; border: 2px solid #000; border-radius: 8px; font-weight: bold; font-size: 1rem;">
+                    <option value="Airtel Money 🔴">Airtel Money 🔴</option>
+                    <option value="Moov Money / Mobicash 🔵">Moov Money / Mobicash 🔵</option>
+                </select>
+            </div>
+
+            <div class="cart-summary" style="text-align: center;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">TOTAL : <span id="cart-total-price" style="color: var(--primary-red);">0</span> FCFA</h3>
+                
+                <button onclick="envoyerCommandeWhatsApp()" class="btn-glow gold" style="width: 100%; padding: 20px; font-size: 1.2rem; cursor: pointer;">
+                    COMMANDER VIA WHATSAPP
+                </button>
+                
+                <button onclick="viderPanier()" style="margin-top: 15px; background: none; border: none; color: #888; text-decoration: underline; cursor: pointer;">
+                    Vider le panier
+                </button>
             </div>
         </div>
     </main>
@@ -32,20 +56,73 @@
     <script src="data.js"></script>
     <script src="script.js"></script>
     <script>
-        // Logique spécifique pour afficher les items du panier ici
+        // 1. Fonction pour afficher les produits du panier
         function renderCart() {
             const list = document.getElementById('cart-items-list');
+            const totalDisplay = document.getElementById('cart-total-price');
+            
+            if (cartItems.length === 0) {
+                list.innerHTML = "<p style='text-align:center; padding: 20px;'>Votre panier est vide... pour l'instant ! ⛵</p>";
+                totalDisplay.innerText = "0";
+                return;
+            }
+
             let total = 0;
-            list.innerHTML = cartItems.map(item => {
+            list.innerHTML = cartItems.map((item, index) => {
                 total += item.price * item.quantity;
-                return `<div class="cart-item">
-                    <h4>${item.title} (x${item.quantity})</h4>
-                    <p>${(item.price * item.quantity).toLocaleString()} FCFA</p>
-                </div>`;
+                return `
+                    <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <strong style="display:block;">${item.title}</strong>
+                            <span style="font-size: 0.9rem; color: #666;">Prix: ${item.price.toLocaleString()} FCFA</span>
+                        </div>
+                        <div style="font-weight: bold;">x${item.quantity}</div>
+                    </div>
+                `;
             }).join('');
-            document.getElementById('cart-total-price').innerText = total.toLocaleString();
+            
+            totalDisplay.innerText = total.toLocaleString();
         }
-        renderCart();
+
+        // 2. Fonction pour envoyer vers WhatsApp
+        function envoyerCommandeWhatsApp() {
+            if (cartItems.length === 0) {
+                alert("Votre panier est vide !");
+                return;
+            }
+
+            const methode = document.getElementById('cart-payment-method').value;
+            const total = document.getElementById('cart-total-price').innerText;
+            
+            // Construction du texte de la commande
+            let texte = `Bonjour KAWAII SHOP ! 🏴‍☠️\n\nVoici ma commande :\n`;
+            
+            cartItems.forEach(item => {
+                texte += `- ${item.title} (x${item.quantity})\n`;
+            });
+
+            texte += `\n💰 *TOTAL : ${total} FCFA*`;
+            texte += `\n💳 *Mode de paiement : ${methode}*`;
+            texte += `\n\nMerci de confirmer la disponibilité !`;
+
+            const numWhatsApp = "24162636600"; // Ton numéro
+            const url = `https://wa.me/${numWhatsApp}?text=${encodeURIComponent(texte)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // 3. Vider le panier
+        function viderPanier() {
+            if(confirm("Voulez-vous vider votre butin ?")) {
+                cartItems = [];
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                renderCart();
+                updateCartCount();
+            }
+        }
+
+        // Lancer l'affichage au chargement
+        document.addEventListener('DOMContentLoaded', renderCart);
     </script>
 </body>
 </html>
