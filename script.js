@@ -87,4 +87,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (featuredGrid && typeof ALL_PRODUCTS !== 'undefined') {
         displayProducts(ALL_PRODUCTS, 'featured-grid');
     }
+ // --- LOGIQUE DU MENU BURGER ---
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-menu');
+
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Ferme le menu si on clique sur un lien
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('is-active');
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+});   
 });
