@@ -7,61 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header class="main-header">
         <a href="index.html" class="logo">KAWAII <span>SHOP</span></a>
-        <nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
             <a href="category.html?genre=action">Action</a>
             <a href="category.html?genre=fantasy">Fantaisie</a>
             <a href="category.html?genre=scifi">Sci-Fi</a>
             <a href="category.html?genre=mystere">Mystère</a>
             <a href="category.html?genre=aventure">Aventure</a>
-            <a href="cart.html">🛒 BUTIN (<span class="cart-count">0</span>)</a>
+            <a href="cart.html">🛒 (<span class="cart-count">0</span>)</a>
         </nav>
     </header>
 
     <main>
         <h2 id="category-title">CHARGEMENT...</h2>
-
-        <div id="category-grid" class="product-grid">
-            </div>
+        <div id="category-grid" class="product-grid"></div>
     </main>
-
-    <footer style="background:#000; color:#fff; text-align:center; padding:40px; margin-top:50px; border-top:5px solid var(--primary-red);">
-        <p style="font-family:'Bangers'; font-size:1.5rem;">KAWAII SHOP &copy; 2024</p>
-    </footer>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Récupérer le genre dans l'URL (ex: action)
             const params = new URLSearchParams(window.location.search);
-            const genreCible = params.get('genre');
-            
-            const titleElement = document.getElementById('category-title');
-            const gridElement = document.getElementById('category-grid');
-
-            if (genreCible && typeof ALL_PRODUCTS !== 'undefined') {
-                // 2. Filtrer les produits (on utilise normalize pour éviter les erreurs de majuscules/accents)
-                const produitsFiltrés = ALL_PRODUCTS.filter(p => 
-                    normalize(p.genre) === normalize(genreCible)
-                );
-
-                // 3. Mettre à jour le titre de la page
-                titleElement.textContent = genreCible.toUpperCase();
-
-                // 4. Afficher les produits si on en trouve
-                if (produitsFiltrés.length > 0) {
-                    displayProducts(produitsFiltrés, 'category-grid');
-                } else {
-                    gridElement.innerHTML = `<p style="text-align:center; grid-column: 1/-1; padding: 50px; font-size: 1.2rem;">
-                        Aucun trésor trouvé dans la catégorie ${genreCible} pour le moment...
-                    </p>`;
-                }
-            } else {
-                titleElement.textContent = "CATÉGORIE INCONNUE";
+            const genre = params.get('genre');
+            if (genre && typeof ALL_PRODUCTS !== 'undefined') {
+                const filtered = ALL_PRODUCTS.filter(p => normalize(p.genre) === normalize(genre));
+                document.getElementById('category-title').textContent = genre.toUpperCase();
+                displayProducts(filtered, 'category-grid');
             }
         });
     </script>
