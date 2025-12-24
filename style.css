@@ -48,7 +48,7 @@ body {
     content: "";
     width: 35px;
     height: 35px;
-    background: url('https://cdn-icons-png.flaticon.com/512/3233/3233379.png') no-repeat center/contain;
+    background: url('https://static.vecteezy.com/system/resources/previews/051/895/582/non_2x/logo-one-piece-free-vector.jpg') no-repeat center/contain;
 }
 
 /* --- NAVIGATION PC --- */
@@ -189,3 +189,4 @@ body {
     }
 }
 @media (max-width: 1023px) { .online-counter { display: none; } }
+
