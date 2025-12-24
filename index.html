@@ -3,54 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAWAII SHOP | Le Repaire du Capitaine</title>
+    <title>KAWAII SHOP | Accueil</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header class="main-header">
         <a href="index.html" class="logo">KAWAII <span>SHOP</span></a>
-    
-    <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
 
-    <nav class="nav-menu">
-        <a href="category.html?genre=action">Action</a>
-        <a href="category.html?genre=fantasy">Fantaisie</a>
-        <a href="category.html?genre=scifi">Sci-Fi</a>
-        <a href="category.html?genre=mystere">Mystère</a>
-        <a href="category.html?genre=aventure">Aventure</a>
-        <a href="cart.html" class="cart-link">🛒 BUTIN (<span class="cart-count">0</span>)</a>
-    </nav>
+        <nav class="nav-menu">
+            <a href="category.html?genre=action">Action</a>
+            <a href="category.html?genre=fantasy">Fantaisie</a>
+            <a href="category.html?genre=scifi">Sci-Fi</a>
+            <a href="category.html?genre=mystere">Mystère</a>
+            <a href="category.html?genre=aventure">Aventure</a>
+            <a href="cart.html" class="cart-link">🛒 BUTIN (<span class="cart-count">0</span>)</a>
+        </nav>
     </header>
 
-    <section class="hero-kawaii">
-        <div class="hero-content">
-            <h1>BIENVENUE À BORD !</h1>
-            <p>Trouve ton trésor parmi nos figurines et mangas.</p>
-        </div>
-    </section>
-
     <div class="promo-banner-container">
-        <a href="#">
-            <img src="https://t3.ftcdn.net/jpg/07/32/10/90/360_F_732109080_4lXwGofazqAiysUpcCnrbflsNOl9EMdW.jpg" alt="Promo du moment" class="promo-banner-img">
+        <a href="#" class="promo-banner-link">
+            <img src="https://via.placeholder.com/1200x300?text=PROMO+ONE+PIECE+ICI" alt="Promo" class="promo-banner-img">
         </a>
     </div>
 
     <main>
-        <h2 id="category-title">NOS TRÉSORS DISPONIBLES</h2>
-        
-        <div id="featured-grid" class="product-grid">
-            </div>
+        <h2 id="category-title">NOS TRÉSORS</h2>
+        <div id="featured-grid" class="product-grid"></div>
     </main>
 
-    <footer style="background:#000; color:#fff; text-align:center; padding:40px; margin-top:50px; border-top:5px solid var(--primary-red);">
-        <p style="font-family:'Bangers'; font-size:1.5rem;">KAWAII SHOP &copy; 2024 - Libreville, Gabon</p>
-        <p>Contactez-nous sur WhatsApp : +241 62 63 66 00</p>
-    </footer>
+    <div class="online-counter" id="online-counter">
+        🏴‍☠️ <span id="pirate-count">5</span> pirates à bord
+    </div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
