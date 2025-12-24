@@ -3,140 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails du Trésor | KAWAII SHOP</title>
+    <title>Détails | KAWAII SHOP</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Styles spécifiques pour l'affichage des volumes */
-        .volume-badge {
-            background: #fff5f5;
-            padding: 4px 10px;
-            border-radius: 5px;
-            border: 1px solid var(--primary-red);
-            color: var(--primary-red);
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        .info-section label {
-            font-weight: 700;
-            display: block;
-            margin-top: 15px;
-            color: #333;
-        }
-    </style>
 </head>
 <body>
-
     <header class="main-header">
         <a href="index.html" class="logo">KAWAII <span>SHOP</span></a>
-    
-    <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </div>
-
-    <nav class="nav-menu">
-        <a href="category.html?genre=action">Action</a>
-        <a href="category.html?genre=fantasy">Fantaisie</a>
-        <a href="category.html?genre=scifi">Sci-Fi</a>
-        <a href="category.html?genre=mystere">Mystère</a>
-        <a href="category.html?genre=aventure">Aventure</a>
-        <a href="cart.html" class="cart-link">🛒 BUTIN (<span class="cart-count">0</span>)</a>
-    </nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+        <nav class="nav-menu">
+            <a href="category.html?genre=action">Action</a>
+            <a href="category.html?genre=fantasy">Fantaisie</a>
+            <a href="category.html?genre=scifi">Sci-Fi</a>
+            <a href="category.html?genre=mystere">Mystère</a>
+            <a href="category.html?genre=aventure">Aventure</a>
+            <a href="cart.html">🛒 (<span class="cart-count">0</span>)</a>
+        </nav>
     </header>
 
-    <main>
-        <div class="product-container" style="max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 20px;">
-            
-            <div class="image-gallery">
-                <img id="main-product-img" src="" alt="Produit" style="width:100%; border-radius:15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;">
-            </div>
-
-            <div class="info-section">
-                <h1 id="product-title" style="font-family:'Bangers'; font-size: 3.5rem; color: #1a1a1a; margin-bottom: 5px;">Chargement...</h1>
-                <p id="product-meta" style="color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;"></p>
+    <main style="padding: 20px;">
+        <div class="product-container" style="max-width:1000px; margin:auto; display:flex; flex-wrap:wrap; gap:30px;">
+            <img id="main-product-img" src="" style="width:100%; max-width:400px; border-radius:15px;">
+            <div class="info-section" style="flex:1; min-width:300px;">
+                <h1 id="product-title" style="font-family:'Bangers'; font-size:3rem;"></h1>
+                <p id="product-meta" style="font-weight:bold; color:var(--primary-red);"></p>
+                <div id="volume-range-display" style="margin:10px 0; padding:10px; background:#eee; border-radius:5px;"></div>
+                <h2 style="font-size:2.5rem;"><span id="product-price"></span> FCFA</h2>
+                <p id="product-description"></p>
                 
-                <div id="volume-info">
-                    <span style="font-size: 0.9rem; color: #444;">📦 Disponibilité :</span><br>
-                    <span id="volumes-range" class="volume-badge">Analyse du stock...</span>
-                </div>
-
-                <div style="font-family:'Bangers'; font-size: 3rem; color: var(--primary-red); margin: 20px 0;">
-                    <span id="product-price">0</span> FCFA
-                </div>
-
-                <div style="background: white; padding: 20px; border-left: 5px solid var(--primary-red); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;">
-                    <p id="product-description" style="line-height: 1.6; color: #333;"></p>
-                </div>
-
-                <div style="background: #fdfdfd; padding: 25px; border-radius: 12px; border: 1px solid #eee;">
-                    
-                    <label for="volume-number">Numéro du Tome / Volume :</label>
-                    <input type="number" id="volume-number" value="1" min="1" style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
-
-                    <label for="payment-method-direct">Mode de Paiement Préféré :</label>
-                    <select id="payment-method-direct" class="payment-select" style="width: 100%; padding: 12px; margin-top: 5px; border: 2px solid var(--primary-red); border-radius: 5px; font-weight: bold; background: white;">
-                        <option value="Airtel Money">Airtel Money 🔴</option>
-                        <option value="Mobicash / Moov Money">Mobicash / Moov Money 🔵</option>
+                <div class="order-box" style="background:#fff; padding:20px; border:1px solid #ddd; border-radius:10px;">
+                    <label>Volume souhaité :</label>
+                    <input type="number" id="volume-number" value="1" style="width:100%; padding:10px; margin-bottom:10px;">
+                    <label>Paiement :</label>
+                    <select id="payment-method-direct" style="width:100%; padding:10px; margin-bottom:20px;">
+                        <option value="Airtel Money">Airtel Money</option>
+                        <option value="Mobicash">Mobicash</option>
                     </select>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px;">
-                        <button id="add-to-cart-btn" class="btn-glow blue" style="font-size: 0.9rem; padding: 15px;">AJOUTER AU PANIER</button>
-                        <button id="buy-whatsapp-btn" class="btn-glow gold" style="font-size: 0.9rem; padding: 15px;">COMMANDER VIA WHATSAPP</button>
-                    </div>
+                    <button id="add-to-cart-btn" class="btn-glow blue">PANIER</button>
+                    <button id="buy-whatsapp-btn" class="btn-glow gold">WHATSAPP</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <div class="online-counter" id="online-counter">
-        🏴‍☠️ <span id="pirate-count">5</span> pirates à bord
-    </div>
-
     <script src="data.js"></script>
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = parseInt(params.get('id'));
-            const p = ALL_PRODUCTS.find(item => item.id === id);
-
-            if (p) {
-                // Remplissage des textes
+            const id = new URLSearchParams(window.location.search).get('id');
+            const p = ALL_PRODUCTS.find(x => x.id == id);
+            if(p) {
                 document.getElementById('product-title').innerText = p.title;
                 document.getElementById('product-price').innerText = p.price.toLocaleString();
-                document.getElementById('main-product-img').src = p.detailImageUrl || p.imageUrl;
-                document.getElementById('product-description').innerText = p.summary || "Aucune description disponible.";
-                document.getElementById('product-meta').innerText = `${p.mediaType || 'Manga'} | ${p.author || 'Auteur Inconnu'}`;
-
-                // --- GESTION DES VOLUMES (MIN/MAX) ---
-                const rangeElement = document.getElementById('volumes-range');
-                if (p.minVolume && p.maxVolume) {
-                    rangeElement.innerText = `Tomes ${p.minVolume} à ${p.maxVolume} disponibles`;
-                    document.getElementById('volume-number').min = p.minVolume;
-                    document.getElementById('volume-number').max = p.maxVolume;
-                    document.getElementById('volume-number').value = p.minVolume;
-                } else if (p.maxVolume) {
-                    rangeElement.innerText = `${p.maxVolume} exemplaires en stock`;
-                } else {
-                    rangeElement.innerText = "Édition Unique / Tome Unique";
-                    document.getElementById('volume-number').parentElement.style.display = 'none';
-                }
-
-                // Actions des boutons
-                document.getElementById('add-to-cart-btn').onclick = () => {
-                    const vol = document.getElementById('volume-number').value;
-                    addToCart(p.id, vol);
-                };
-
+                document.getElementById('main-product-img').src = p.imageUrl;
+                document.getElementById('product-description').innerText = p.summary;
+                document.getElementById('volume-range-display').innerText = `📦 Disponibles : Tomes ${p.minVolume} à ${p.maxVolume}`;
+                
                 document.getElementById('buy-whatsapp-btn').onclick = () => {
                     const vol = document.getElementById('volume-number').value;
                     const pay = document.getElementById('payment-method-direct').value;
-                    buyNowDirect(p.title, p.price.toLocaleString(), vol, pay);
+                    buyNowDirect(p.title, p.price, vol, pay);
                 };
-            } else {
-                document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>Produit introuvable... <a href='index.html'>Retourner à l'accueil</a></h1>";
             }
         });
     </script>
