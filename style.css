@@ -250,3 +250,55 @@ nav a:hover { color: var(--accent-orange) !important; }
     text-transform: uppercase;
     font-size: 0.8rem;
 }
+/* --- MENU BURGER LOGIC --- */
+.menu-toggle {
+    display: none; /* Caché sur PC */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+}
+
+.menu-toggle .bar {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+/* --- ADAPTATION MOBILE --- */
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: flex; /* Affiché sur Mobile */
+        z-index: 1001;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Caché à droite par défaut */
+        width: 70%;
+        height: 100vh;
+        background: #000; /* Fond noir One Piece */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s;
+        box-shadow: -10px 0 20px rgba(0,0,0,0.5);
+        border-left: 3px solid var(--primary-red);
+    }
+
+    .nav-menu.active {
+        right: 0; /* Glisse vers la gauche pour apparaître */
+    }
+
+    .nav-menu a {
+        margin: 20px 0;
+        font-size: 1.5rem; /* Plus gros sur mobile pour cliquer facilement */
+    }
+
+    /* Animation du bouton Burger en "X" quand il est actif */
+    .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+}
